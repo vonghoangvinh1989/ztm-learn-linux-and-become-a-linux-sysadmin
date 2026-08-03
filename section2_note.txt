@@ -1,0 +1,61 @@
+1) terminals, consoles, shells and commands
+	a) shortcut to open terminal: Ctrl + Alt + T 
+    b) shell: program get commands from user keyboard and pass to system kernel operating system to execute
+    c) Useful commands
+        ip a --> view the ip address of computer
+    d) console: like terminal but without gui (ctrl + alt + [f1..f8]) or text only
+        
+2) linux command structure
+    a) command: ping -c 1 8.8.8.8 --> check the internet is working with ping dns google
+        Example: ping -c 127.0.0.1
+            ping: command name
+            c: command option
+            1: option value
+            127.0.0.1: command argument
+
+    b) command: ls --all and ls -a are the same, ls -a can show hidden files
+    c) command show the file system and disk space used
+        df -h
+        df -hia
+        
+3) getting help, man pages
+    a) man pages
+        example: man ls
+            h --> showing help, press 'q' to quit
+            ctrl + f / space --> forward one window
+            ctrl + b --> backward one window
+            g --> go to the beginning of the page
+            G --> go to the end of the page
+
+            /search_term --> to search the word, for example '/sort' to search the word 'sort' (search from the beginning of the page)
+                n -> go to the next match
+                N -> go to the backward match
+
+            ?search_term --> to search the term, but start at the end of the page (N)
+
+    b) To check a command is an executable files on the disk or build-in shell, using the 'type' command 
+        type df --> (usr/bin/df), so that's mean it's executable file
+            (to see the help of these command use man command: 'man df')
+        type cd --> cd is a shell buildin
+            (to see the help of these command use help command: 'help cd')
+        *note: there's one help available to both type is 'command name --help', cd --help, ls --help
+
+    c) command ifconfig to view ip and mac address
+        ifconfig
+
+    d) how to search key term in all man pages
+        man -k 'copy files' --> search term 'copy files' in man pages
+        man -k ifconfig / man -k uname
+
+        alternate command: apropos ifconfig --> same as man -k
+
+4) keyboard shortcuts
+    ctrl + l --> clear the screen
+    ctrl + d --> close the bash shell
+    ctrl + a --> move the cursor to the beginning of the command line
+    ctrl + e --> move the cursor to the end of the command line
+    ctrl + u --> delete all characters before the cursor and adding them to the clipboard
+    ctrl + c --> to stop the process
+    ctrl + z --> suspend the process and put it in background
+        jobs --> list background jobs
+        bg %1 --> to continue running in background

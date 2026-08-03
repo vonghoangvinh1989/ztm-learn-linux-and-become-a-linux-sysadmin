@@ -1,0 +1,9 @@
+# section 2 - the Linux terminal in depth
+terminals, consoles, shells and commands -> done
+linux command structure -> done
+getting help, man pages -> done
+quiz for getting help in linux -> done
+mastering the terminal the tab key -> done
+mastering the terminal keyboard shortcuts -> done
+quiz for mastering the terminal -> done
+mastering the terminal the bash history --> waiting
