@@ -58,4 +58,60 @@
     ctrl + c --> to stop the process
     ctrl + z --> suspend the process and put it in background
         jobs --> list background jobs
-        bg %1 --> to continue running in background
+        bg %1 --> to continue running in 
+        
+5) the bash history
+    a) cat .bash_history --> file stored history commands
+    b) echo $HISTFILESIZE --> the number of commands stored in .bash_history
+    c) echo $HISTSIZE --> the number of commands kept in memory during shell session
+    d) To see the history of commands, using 'history'
+            history --> view history commands
+            !959 --> rerun command in history with !
+            !! --> rerun the last command
+            !-7 --> rerun the last 7 command
+            !ping --> run the last ping command (search and run --> very dangerous)
+            !ping:p --> printing the command, not running it (useful to check before running)
+            history -d 970 --> delete command at line 970
+            history -c --> clear content of history file
+
+    e) Walkthrough command history
+            ctrl + p / Up Arrow --> go to previous command
+            ctrl + n / down arrow --> go to the next 
+            ctrl + r --> to search the command (type the keyword), when found press enter to run
+                    --> search but do not want to run, ctrl + g to exit
+
+    Note: 
+    + history --> HISTSIZE
+    + ~/.bash_history --> HISTFILESIZE
+    + when you type command and check ~/.bash_history, it does not store that command, but when you
+log out and login again, check .bash_history, it will be there
+
+6) running commands without leaving a trace
+    a) put a space in front of command will not leave a trace in history
+        for example: ' ls -l' or ' who'
+
+    b) echo $HISTCONTROL --> check this variable, if it's 'ignoreboth' that means ignore white space in front
+and ignore duplicate, ignoreboth = ignoredups + ignorespace, meaning 'not saving in history 
+when have space in front and commands are duplicate'
+
+7) recoding the date and time for each line in history
+    HISTTIMEFORMAT="%d/%m/% %T "
+
+8) root vs non-priviledge users
+    a) sudo su --> enter user password (su: substitute user), user must be in sudo group,
+    still in user home directory, open a root shell
+        note: command 'id' show user's identity such as user id, primary group id and groups the user belongs to
+    
+    b) sudo su - --> enter user password, root working enviroment activated, go to root home directory, new shell with #
+    
+    c) sudo command --> run a command with root priviledges
+        for example: sudo groupadd myadmin
+
+    d) su --> enter root password, become temporary root in this terminal
+Note:
+    + sudo -v --> update the cached credentials without a command
+    + sudo -k --> invalidate the user's cached credentials, after that need to type the password
+
+    + / --> this is root directory
+    + /root --> this root home directory
+    + /home --> this is home directory of users

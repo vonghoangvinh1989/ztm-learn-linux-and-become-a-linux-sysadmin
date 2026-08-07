@@ -1,0 +1,56 @@
+1) find the ip of address default gateway
+    route -n --> check default gateway by looking for the line destination is 0.0.0.0
+    ip route --> check the first line
+
+    ### Default Gateway in Linux (`route -n`)
+
+Example:
+
+```
+Destination     Gateway         Genmask         Flags
+0.0.0.0         192.168.1.1     0.0.0.0         UG
+192.168.1.0     0.0.0.0         255.255.255.0   U
+```
+
+* **Default gateway = line with Destination `0.0.0.0`**
+* `0.0.0.0/0` means **all networks** (no specific destination match)
+* Linux uses this route when it does not know another route.
+* The **Gateway column** (`192.168.1.1`) is the default gateway IP.
+
+Flags:
+
+* **U** = Route is Up (active)
+* **G** = Use Gateway (send packets through another router)
+
+Therefore:
+
+```
+0.0.0.0 + UG + Gateway IP
+= Default Gateway
+```
+
+Example flow:
+
+```
+PC (192.168.1.50)
+        |
+        v
+Gateway (192.168.1.1)
+        |
+        v
+Internet
+```
+
+Useful command (modern Linux):
+
+```
+ip route
+```
+
+Output:
+
+```
+default via 192.168.1.1 dev eth0
+```
+
+`default via` = default gateway.

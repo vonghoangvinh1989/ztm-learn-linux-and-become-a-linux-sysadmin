@@ -6,4 +6,14 @@ quiz for getting help in linux -> done
 mastering the terminal the tab key -> done
 mastering the terminal keyboard shortcuts -> done
 quiz for mastering the terminal -> done
-mastering the terminal the bash history --> waiting
+mastering the terminal the bash history -> done
+running commands without leaving a trace -> done
+recording the date and time for each line in history -> done
+root vs non-privileged users getting root access -> done
+quiz for bash history and root access -> done
+
+# section 3 - challenges - the linux terminal
+the linux terminal -> done 
+
+# section 4 - the linux file system
+intro to the linux files system --> waiting
