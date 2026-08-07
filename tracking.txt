@@ -16,4 +16,8 @@ quiz for bash history and root access -> done
 the linux terminal -> done 
 
 # section 4 - the linux file system
-intro to the linux files system --> waiting
+intro to the linux files system -> done
+the file system hierarchy -> done
+absolute vs relative path -> done
+quiz for the linux file system -> done
+the ls command in depth --> waiting

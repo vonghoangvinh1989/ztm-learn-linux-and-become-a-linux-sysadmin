@@ -1,0 +1,17 @@
+1) intro to the linux files system
+    a) df -h --> use this command to show disk space and see the mount like /dev/sdb1
+    b) ls /run/media/vonghoangvinh/USB-Trancend --> to view the content of usb drive
+
+2) the file system hierarchy standard
+    a) which fdisk --> which command show the location of the command
+        for example: /usr/sbin/fdisk
+
+    b) proc --> contain info about computers such as hardware
+        cat /proc/cpuinfo --> show info of cpu
+        cat /proc/meminfo --> show info of memory
+
+3) absolute vs relative paths
+    a) tree command 
+        tree -d /etc --> print out only directories
+        tree -f /etc --> print the full path for entry of both directory and file
+        tree -df /etc
