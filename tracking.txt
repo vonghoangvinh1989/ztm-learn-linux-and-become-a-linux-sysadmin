@@ -20,4 +20,7 @@ intro to the linux files system -> done
 the file system hierarchy -> done
 absolute vs relative path -> done
 quiz for the linux file system -> done
-the ls command in depth --> waiting
+the ls command in depth -> done
+understanding file timestamps -> done
+sorting files by timestamp -> done
+file types in linux (ls -F, file) --> waiting

@@ -11,7 +11,90 @@
         cat /proc/meminfo --> show info of memory
 
 3) absolute vs relative paths
-    a) tree command 
+    + tree command 
         tree -d /etc --> print out only directories
         tree -f /etc --> print the full path for entry of both directory and file
         tree -df /etc
+
+4) the ls command in depth
+    a) ls -1 /etc --> display in one line with '-1'
+    
+    b) ls -l /etc --> display long listing with '-l'
+        drwxr-xr-x  2 root                 root                  4096 Jul 22 20:38 vim
+        lrwxrwxrwx  1 root                 root                    23 Jun  4  2025 vtrgb -> /etc/alternatives/vtrgb
+        -rw-r--r--  1 root                 root                  4942 Oct  2  2025 wgetrc
+  
+        'd' in front --> directory
+        'l' in front --> symbolic link, like a shortcut
+        '-' in front --> file
+        'rwxrwxrwx' --> indicate permission of "owner, group owner and others"
+        '2' --> the number of hard links
+        'root root' --> owner and group owner
+        '4096" --> size
+        'Jul 22 20:38 vim' --> modification time and file name
+
+    c) ls -ld /etc --> display long listing with only directory, not list the content of directory '-d'
+    
+    d) ls -lh /etc --> show file size in readable format
+    
+    e) ls -la ~ --> show all, includes hidden files and directories ('.' in front)
+    
+    f) ls -lhS --> sort by file size and largest come first, not real size of directory (real size should be check with du command)
+    
+    g) du command to check the real size of directory
+        du -sh /etc --> show 17M
+
+    h) ls -l -X --> sort by extension
+        ls -l -X /etc
+
+    i) ls --hide=*.conf /etc --> hide files with .conf
+
+    j) ls -lR --> list the files and directories recursively
+
+    k) \ls -l --> run ls command without alias 
+        when we run: ls -l actually we run ls --color=auto -l (using alias)
+
+5) understanding file timestamps: atime, mtime, ctime (stat, touch, date)
+    atime: access timestamp --> the last time the files was read (ls -lu), someone open the 
+content of the file
+    mtime: modified timestamp --> the last time the file content was modified (ls -l, ls -lt), someone use text
+editor to change the content of the file
+    ctime: changed timestamp --> the last time the file metadata was changed (ls -lc), changing the file permission
+or file owner
+
+    a) To view these timestamp, we can use the command 'stat'
+        stat /etc/passwd
+
+        ls -lu --> view atime
+        ls -lt --> view mtime
+        ls -lc --> view ctime
+
+    b) To view modification time with details to the level of seconds, we can combine
+'-l' and '--full-time'
+        ls -l --full-time
+
+    c) change timestamp on a file, use 'touch' command
+        touch linux.txt --> create new file with timestamp
+        touch linux.txt --> timestamp all updated
+
+        touch -a linux.txt --> change the atime, but ctime also changed since meta changed
+        touch -m linux.txt --> change the mtime, but ctime also changed
+
+        touch -m -t yyyymmddhhmm.ss linux.txt --> change mtime of file to a specific time with (-m -t)
+            for ex: touch -m -t 201812301530.45 linux.txt
+
+        touch -d "2010-10-31 15:45:30" linux.txt --> change atime and mtime at the same time
+
+        touch linux.txt -r ubuntu.txt --> get timestamp of linux.txt and put to ubuntu.txt
+
+    Note:
+        + date --> view current date
+        + date --> view current date by utc
+
+6) sorting files by timestamp
+    ls -lt --> view the files and sort by modification time
+    ls -ltu --> show and sort by access time
+    ls -lu --> show access time and sort by name
+    ls -lu -r --> show access time, sort by name but reversely
+
+    ls -ltur or ls -ltu --reverse --> show atime, sort by atime reversely
