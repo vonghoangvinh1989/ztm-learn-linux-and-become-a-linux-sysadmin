@@ -98,3 +98,83 @@ or file owner
     ls -lu -r --> show access time, sort by name but reversely
 
     ls -ltur or ls -ltu --reverse --> show atime, sort by atime reversely
+
+7) file types in linux
+    .log --> log file
+    .conf --> configuration file
+
+    a) use 'file' command to determine what type of file by examining its content
+        file Linux.jpeg --> JPEG image data 
+        mv ./Linux.jpeg ./Linux.png --> rename with mv command
+        file ./Linux.png --> still JPEG image data (file command based on content)
+
+    b) how to view to recognize what type of file
+        ls -l /etc
+            -: normal file
+            d: directory
+            l: symbolic link (like a shortcut)
+
+        ls -l /dev/sda1
+            b: block device (data in blocks: hdd, sdd, usb)
+
+        ls -l /dev
+            c: char device (data as stream of characters/bytes: keyboard, terminal, serial port)
+
+        ls -l /run
+            s: file socket, process-to-process communication
+            p: name piped file, process-to-process data stream
+
+    c) how to recognize a file or a direction, we can use command ls with '-F'
+        ls -F --> classify, if you see 'Downloads/' is directory with '/' after the name
+        ls -F /etc --> localtime@, @ is symlink
+        ls -lF /run 
+            --> snapd.socket=, = is socket file
+            --> initctl|, | is pipe files
+        ls -lF /usr/bin --> see 'ps*', * stand for executable file
+
+    d) can use 'file' to check file type
+        file /etc --> directory
+        file /etc/passwd --> ASCII text, normal file
+        file /etc/vtrgb --> symbolic link
+        file /run/* --> show all the file type in directory /run
+            example: file /etc/*
+
+8) Viewing files
+    a) Viewing files with cat command
+        cat /var/log/auth.log --> view content of a file by cat
+        cat /etc/passwd /etc/group --> view 2 files at the same time
+        cat -n /etc/passwd --> view the file with line number (option -n)
+
+        cat /etc/hosts /etc/host.conf > my_host.txt --> concatenate contents of 2 file into 
+a new file called my_host.txt
+            > : output redirection
+
+    b) Viewing files with less, more 
+        less /var/log/dmesg --> we call it pager, moving around with options
+            h --> help
+            ctrl + f, ctrl + b --> up or down windows screen
+            g --> to beginning
+            G --> to end
+            /term --> for search when stand at the beginning, match up and down with 'n' and 'N'
+            ?term --> for search when at the end, match up and down with 'n' and 'N'
+    
+    c) Viewing files with tail, head, watch
+        + TAIL
+        tail /etc/passwd --> view the last 10 lines of file (in default)
+        tail -n 2 /etc/group --> view the last customed line of file (here is 2 with -n)
+        tail -n +20 /var/log/syslog --> view from line 20 to the end
+        
+        tail -f /var/log/auth.log --> view the log with updating content of file, the content will write into it
+            /var/log/auth.log --> where to view authentication logging like login, logout
+        
+        + HEAD
+        head /etc/passwd --> view the first 10 lines of file
+        head -n 3 /etc/group (head -3 /etc/group) --> view the first 3 line
+
+        + WATCH
+        watch ls --> run the 'ls' command repeatively until unterrupting with 'ctrl + c'
+        watch -n 3 -d ls -l --> run the 'ls -l' command repeatively with options
+            -n 3: every 3 seconds
+            -d: highlight differences
+
+        watch -n 1 ifconfig --> watch the traffic of network each 1 second repeatedly

@@ -23,4 +23,10 @@ quiz for the linux file system -> done
 the ls command in depth -> done
 understanding file timestamps -> done
 sorting files by timestamp -> done
-file types in linux (ls -F, file) --> waiting
+file types in linux (ls -F, file) -> done
+quiz for ls, file types and timestamp -> done
+view files - part 1 (cat) -> done
+view files - part 2 (less, more) -> done
+view files - part 3 (tail, head, watch) -> done
+quiz for viewing files -> done
+creating files and directories (touch, mkdir) --> waiting
