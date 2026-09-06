@@ -29,4 +29,9 @@ view files - part 1 (cat) -> done
 view files - part 2 (less, more) -> done
 view files - part 3 (tail, head, watch) -> done
 quiz for viewing files -> done
-creating files and directories (touch, mkdir) --> waiting
+creating files and directories (touch, mkdir) -> done
+copying files and directories (cp) -> done
+moving and renaming files and directories (mv) -> done
+removing files and directories (rm, shred) -> done
+quiz for mkdir, cp, mv, rm, shred -> done
+working with pipes in linux (|, wc) --> waiting

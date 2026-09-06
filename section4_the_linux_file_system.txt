@@ -54,6 +54,9 @@
     k) \ls -l --> run ls command without alias 
         when we run: ls -l actually we run ls --color=auto -l (using alias)
 
+    g) ls */ --> listing only directories in current directory
+        ls -ld /etc/*/ --> listing only directories inside of directory '/etc'
+
 5) understanding file timestamps: atime, mtime, ctime (stat, touch, date)
     atime: access timestamp --> the last time the files was read (ls -lu), someone open the 
 content of the file
@@ -178,3 +181,81 @@ a new file called my_host.txt
             -d: highlight differences
 
         watch -n 1 ifconfig --> watch the traffic of network each 1 second repeatedly
+
+9) Creating Files and directories
+    mkdir dir3 dir1/dir10 /tmp/tmp_dir --> create multiple directories at once
+    mkdir -p first/second/third --> create all parent directory and their children all at once with '-p'
+    mkdir -p dir1 --> create dir1 directory, if dir1 already existed, not show error
+
+    note '-p': create the whole path if necessary, and don't complain if it already exists
+
+10) Copying Files and directories
+    cp /etc/passwd ./users.txt --> copy content of the file to another file if another file 
+was existed, if not it will create new file 
+    cp /etc/group ./users.txt --> run copy here again, and users.txt content will be replaced
+with new content since it's already existed
+        -v: verbose, when we want to show details information
+        -i: prompt, when we want it asks before doing something
+
+    cp learning_linux.txt logs users.txt first/ --> copy 3 files into first directory
+    cp -i learning_linux.txt logs users.txt first/ --> do the samething with prompting, if already existed
+
+    sudo cp -r /etc/ ~/Desktop --> copy all directory with everything inside to another directory
+        -r: recursive
+
+    sudo cp users.txt u.txt --> copy file with root (here is sudo priviledge) to another file, the
+owner and group of the file 'u.txt' become 'root root'
+        note: the user run the 'cp' command become the file's owner
+
+    sudo cp -p users.txt u1.txt --> in this case, we can 'preserve' the file permission, owner, etc
+with '-p'
+        note: '-p' --> preserve
+
+11) Moving and Renaming Files and Directories 
+    a) moving multiple files
+        mv c.txt dir1/a.txt dir1/b.txt dir1/dir2/ --> moving multiple files to dir1/dir2/
+    
+    b) moving with wildcard
+        mv dir1/dir2/*.txt dir1/ --> moving with wildcard * for all txt files
+    
+    c) moving with options: -i: prompt, -n: not overwrite, -u: update
+        mv -i dir1/dir2/a.txt dir1/ --> using the i to prompt when inside dir1 also have file
+'a.txt', when move like that it will overwrite the content of dir1/a.txt
+            Note: -i: using the prompting interactive to check before overwriting
+
+        mv -n dir1/dir2/a.txt dir1/ --> using '-n' or no-clobber, not overwrite the existing file,
+so in this case a.txt will not be moved
+
+        touch dir1/dir2/b.txt --> create b.txt inside dir2, inside dir1 also has 'b.txt'
+        mv -u dir1/b.txt dir1/dir2 --> it will not move dir1/b.txt to dir1/dir2 since we use
+'-u' or update option, it just moves when destination not exists or the source is newer than destination,
+in this case it will be older
+
+    d) rename file
+        mv dir1/a.txt dir1/abc.txt --> rename file a.txt to abc.txt
+
+    e) rename directory
+        mv dir1/ dir10 --> rename directory dir1 to dir10
+
+    f) move and rename at the same time 
+        mv dir10/c.txt dir10/dir2/cc.txt --> move c.txt inside dir10 to dir2 with name cc.txt
+
+12) Removing files and directories (rm, shred)
+    a) removing files (-i: interactive, -v: verbose)
+        rm dir10/abc.txt dir10/dir2/a.txt --> files remove immediately without prompting
+        rm -i dir10/dir2/b.txt --> remove file 'b.txt' with prompting question, y to remove
+        rm -v dir10/b.txt --> remove file 'b.txt' with detailed what file removed
+
+    b) removing directories
+        rm -r dir10/ --> remove directory dir10 with '-r: recursive' option
+    
+    c) removing with -f: force option
+        rm -rf Music/ Pictures/ --> remove directories with force option
+
+    d) using 'shred' to overwrite the file many times before delete it to make sure it will not
+be recovered
+        shred -vu -n 100 passwd --> -v: verbose, -u: removing after overwriting, -n: overwrite number times
+(default will be 3), the file will be overwritten with random content before removing
+    
+
+
