@@ -258,4 +258,79 @@ be recovered
 (default will be 3), the file will be overwritten with random content before removing
     
 
+13) Working with piples in linux
+    a) practice with pipe
+        ls -lSh /etc/ | head --> pipe with 'head' command to see first 10 lines of
+/etc/ sorted by size
+
+        ls -lSh /etc/ | head -n 20 | tail -n 1 --> we can pipe as many commands as we want
+
+        cat /var/log/auth.log | grep -a "authentication failure" --> search all the
+authencation failure, -a to treat binary file as text
+
+        cat /var/log/auth.log | grep -a "authentication failure" | wc -l --> count how many
+authentication failures with wc
+
+    b) wc command
+        wc /etc/passwd --> show 48 83 2825 /etc/passwd meaning 48 lines, 83 words and 
+2825 characters counted in file 'passwd' of /etc, here is 48 accounts
+        wc -l /etc/group --> show 76 /etc/group means here is 76 groups
+        wc -w /usr/share/dict/american-english --> show 102401 means we have 102401
+words in american-english file
+        wc -c /usr/share/dict/american-english --> show 985084 means there are 985084
+characters in file 
+            -l: line
+            -w: word
+            -c: character
+
+    c) who command is used to know logged in users
+        who | wc -l
+
+
+14) Command Redirection
+    a) redirect with >
+        ls -l > ls.txt --> redirect output of ls -l to file with name 'ls.txt'
+        ifconfig > ls.txt --> this time the content of ls.txt will be overwritten by content of command 'ifconfig'
+            note: > will create new file if not exists, but overwrite if exists
+
+    b) append with >>
+        ls -l > output.txt --> redirect like normal
+        ifconfig >> output.txt --> this time do not overwrite but append with '>>', so 'output.txt'
+will have the content of ls -l and also the ifconfig
+
+    c) standard error 2
+        tail -n 3 /etc/shadow 2> error.txt --> redirect error output to file 'error.txt'
+with standard stream 2 for error
+        tail -n 3 /etc/shadow 2>> error.txt --> this time append the error one more
+time with 2>>
+        dsfa 2>> error.txt --> continue to append error to error.txt
+
+        tail -n 2 /etc/passwd /etc/shadow > output.txt 2> error.txt --> redirect 
+normal output to output.txt and error to error.txt at the same time
+
+    d) redirect standard output and standard error to the same file, redirect standard
+output the file and redirect standard error to standard output
+        tail -n 2 /etc/passwd /etc/shadow > output.txt 2>&1 --> after this command, both
+content of /etc/passwd and error go to output.txt
+
+    e) combine pipe and redirect
+        ifconfig | grep ether > mac.txt --> search the line contains 'ether' in ifconfig command 
+save to a file called 'mac.txt'
+
+    f) using cut
+        ifconfig | grep ether | cut -d " " -f 10 --> cut with -d delimeter " " and get -f field 10
+        ifconfig | grep ether | cut -d " " -f 10 > mac.txt --> redirect to mac.txt with only 'mac address number'
+
+        cat /etc/passwd | cut -d ":" -f 1 --> get only username on /etc/passwd file
+        cat /etc/passwd | cut -d ":" -f 3 --> get user id 
+    
+    g) whatif we want to store and output to terminal at the same time (tee command)
+        ifconfig | grep ether | tee mac.txt --> redirect output to mac.txt and show output to terminal
+    at the same time 
+            note: tee command overwrite the file by default
+
+        w | tee -a mac.txt --> use option '-a' with tee to append the content to the file
+        
+        uname -a | tee mac.txt kernel.txt --> write to multiple files at the same time
+
 
