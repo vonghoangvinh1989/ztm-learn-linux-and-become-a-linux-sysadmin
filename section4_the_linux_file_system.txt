@@ -333,4 +333,40 @@ save to a file called 'mac.txt'
         
         uname -a | tee mac.txt kernel.txt --> write to multiple files at the same time
 
+15) Finding files and Directories
+    a) how to tell where the executable for a command is located, using 'which'
+        which rm --> /usr/bin/rm
+
+        which -a find --> showed all of version of executable commands with -a
+            here is /usr/bin/find and /bin/find, they are hardlinks (2 pointers) or different names
+for the same file
+    
+        which pwd rm find less ls --> we can search many executable commands at the same time
+
+    b) search files and directories with plocate (faster since it based on local database), but
+give less result
+        sudo updatedb --> update the database of plocate command 
+        
+        plocate passwords --> locate paths with name 'passwords'
+        plocate rrides --> locate paths has 'rrides' inside absoluate paths
+
+        plocate -b rrides --> locate paths has 'rrides' only in base name (file name), not the whole path
+
+        plocate *passwd* --> locate paths has anything before and after 'passwd'
+
+        plocate -r '/passwd$' --> search all paths which ending in /passwd 
+            $: make sure it is final part of the path
+
+        touch myfile123x --> create new file with name 'myfile123x'
+        plocate myfile123x --> have no result since it is not updated in database
+        sudo updatedb --> update local database of locate
+        plocate myfile123x --> this time it shows the result
+
+        rm myfile123x --> remove this file 
+        plocate myfile123x --> still find it, that means give us a false result 
+        plocate -e myfile123 --> this command will check this file really exists
+            (-e: existing)
+
+        plocate Rainshadow --> nothing was found
+        plocate -i Rainshadow --> have result with -i: ignore case insensitive
 
