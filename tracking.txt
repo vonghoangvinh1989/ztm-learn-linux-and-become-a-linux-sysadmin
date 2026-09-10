@@ -38,5 +38,6 @@ working with pipes in linux (|, wc) -> done
 command redirection (>, >>, 2>, &>, cut, tee) -> done
 quiz for piping and command redirection -> done
 finding files and directories part 1 (which, plocate) -> done
-finding files and directories part 2 (find) --> waiting
+finding files and directories part 2 (find) -> done
+find and exec --> waiting
 

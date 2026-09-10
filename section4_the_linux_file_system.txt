@@ -370,3 +370,77 @@ give less result
         plocate Rainshadow --> nothing was found
         plocate -i Rainshadow --> have result with -i: ignore case insensitive
 
+16) Finding Files and Directories (with find command)
+    a) search file by name
+        find . -name todo.txt --> search file by name with (-name) at current directory
+
+    b) search file by name but case insensitive
+        find . -iname toDo.txt --> same as above but -iname with case insensitive, still found the file 'todo.txt'
+
+    c) search file by name with wildcard
+        find . -name "todo*" --> search file by name with wildcard (*)
+        (we can write like this: find . -name todo* but above better)
+
+        find . -name "*rep*" --> search file by name with contains 'rep'
+
+    d) search file by name and delete when found (dangerous)
+        find . -name todo.txt -delete --> search and delete at the same time, be careful
+
+    e) search file by name with sudo when need permission
+        sudo find /etc/ -name passwd --> search file name 'passwd' by root priviledge
+
+    f) search file by name and list file afterward
+        sudo find /etc -name passwd -ls --> we can execute 'ls' with find by using option '-ls'
+
+    g) search file by type
+        find /etc -type d --> search all directories in /etc recursively (in this case could be list all directories in /etc)
+
+        find /etc -type d -maxdepth 2 -perm 755 | wc -l --> search directories in /etc with maximum level is
+2 and with permission is 755 and count how many
+
+    h) search using multiple criteria such as type and size
+        sudo find /var -type f -size 100k -ls --> search in /var with type is 'file'
+and size is 100k and after that list those files
+
+        sudo find /var -type f -size +10M -ls --> use '+' or '-' to show greater
+than or smaller than the size we want, here is greater than 10 megabytes
+
+        sudo find /var -type f -size +10k -ls --> search for size less than 10 kilobytes
+
+        sudo find /var -type f -size +5M -size -10M --> search for size larger than 5 megabytes
+and less than 10 megabytes
+
+    i) search file by mtime
+        find /var -type f -mtime 0 -ls --> search files modified by the last
+24 hours, 0 here mean < 24h, 1 mean 24 - <48h, 2 mean 72 - <96h, cycle of 24 hours
+
+        find /var -type f -mtime 1 -ls --> search files modified by 1-2 days ago 
+(from 24 to less than 48 hour)
+
+    j) search file by atime
+        find /var -type f -atime +1 -ls --> search files were accessed at least 
+1-2 days ago
+
+    k) search file by mmin
+        find /var -type f -mmin -60 --> search file was modified less than 60 minutes
+        find /var -type f -mmin 60 --> modified by exactly 60 mins ago, so no result found
+
+    l) search file by user
+        sudo find /var -type f -user gdm -ls --> search files belong to gdm user
+
+    m) search file using negate (not)
+        sudo find /var -type f -not -group root -ls --> search files not belong to
+'root' group
+
+        NOTE:
+            -mtime 0	Less than 24 hours old
+            -mtime 1	24–<48 hours old
+            -mtime 2	48–<72 hours old
+            -mtime 3	72–<96 hours old
+            -mtime -1	Less than 24 hours old
+            -mtime -2	Less than 48 hours old
+            -mtime -3	Less than 72 hours old
+            -mtime +0	More than 24 hours old
+            -mtime +1	More than 48 hours old
+            -mtime +2	More than 72 hours old
+            -mtime +3	More than 96 hours old
