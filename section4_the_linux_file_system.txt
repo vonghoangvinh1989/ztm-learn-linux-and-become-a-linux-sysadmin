@@ -444,3 +444,92 @@ and less than 10 megabytes
             -mtime +1	More than 48 hours old
             -mtime +2	More than 72 hours old
             -mtime +3	More than 96 hours old
+
+17) Find and execute 
+    a) search files and exec command after found
+        sudo find /etc -type f -mtime 0 -exec cat {} \; --> search files were modified
+in the last 24 hours and view content of each found files afterward using 'exec' option
+
+        sudo find /etc -type f -mtime -7 -exec cp {} /root/backup \; --> search all files were
+modified in the last 7 days and copy to folder /root/backup
+
+    b) search files and prompt before execute command with option 'ok'
+        sudo find /etc -type f -mtime -7 -ok cp {} /root/backup \; 
+
+18) Searching for String patterns in text files (grep) (search file content)
+    a) search string
+        grep user /etc/ssh/ssh_config --> search string 'user' in file ssh_config
+
+    b) search string with space in between
+        grep "command line" /etc/ssh/ssh_config --> if search string contains space, we should
+put it in double quotes
+
+    c) search with case insensitive
+        grep -i "SSH" /etc/ssh/ssh_config --> search with case insensitive to get more result,
+if we write (grep "SSH" /etc/ssh/ssh_config), it could be showed no result for not found "SSH"
+
+    d) search with case insensitive and show number
+        grep -i -n "SSH" /etc/ssh/ssh_config --> same as above but in this case it will show
+line number for better reading, we can write like this: "grep -in SSH /etc/ssh/ssh_config"
+        2:# This is the ssh client system-wide configuration file.  See
+        3:# ssh_config(5) for more information.  This file provides defaults for
+
+    e) search with the 'whole word'
+        grep -w body /etc/passwd --> search for the whole word 'body' in file passwd, 
+whole word mean the word 'body' stand separately (-w: whole word)
+
+    f) search inversely or we want to exclude what we want to find
+        grep -v kernel /var/log/dmesg --> search for all the lines do not contain the word 'kernel'
+in file dmesg, -v here means 'inverse' (grep kernel /var/log/dmesg will find lines contain 'kernel, 
+-v do the opposite)
+
+    g) search in binary file (data file)
+        grep -a root /var/log/auth.log --> -a option mean treat binary like text file, using this
+option to search content of binary file
+    
+    h) search in directory, normally it will show error but we can use '-R' to recursively
+search for files in subdirectories
+        grep 127.0.0.1 /etc --> we can not search since /etc/ is a directory
+        sudo grep -R 127.0.0.1 /etc/ --> search by using Recursive to find in subdirectories contain files
+        sudo grep -R -s 127.0.0.1 /etc --> same like above but we suppress the errors or messages
+
+    i) search to get number of lines match with -c
+        grep -c error /var/log/syslog --> search the string 'error' in file 'syslog' but instead of
+show lines contain the result, we receive the number of lines match, here is 9
+        grep error /var/log/syslog | wc -l --> another way to write like above
+
+    j) search with pipe 
+        sudo dmesg | grep error --> we can get the result of 1 command and pipe to 'grep' to
+search, here is search for string 'error'
+
+    k) search with pipe and declare number of lines before and after the match
+        sudo dmesg | grep -A 3 -B 4 error --> if we want to see a few lines before match and 
+a few lines after man we can specify with option '-A' and '-B'
+
+    l) search when the number of lines before and after the match are the same
+        sudo dmesg | grep -C 3 error --> if we want to see the same numbers before the match and after
+the match we can use option '-C' 
+
+    m) trick with netstat to filter port 
+        sudo netstat -tupan | grep 53 --> use command 'netstat -tupan' to display all running
+ports and use grep such as '53' to filter about port '53', really useful command
+        sudo netstat -tupan --> normally to display all ports
+
+    n) search in directory to filter only subdirectories and combine multiple commands
+        ls -RF /etc | grep / --> command ls -F to show the last character which tell an item 
+is directory, file or symbolic link (/ is directory) and after that using 'grep' to filter
+all the sub directoryof /etc
+        ls -RF /etc | grep -v / --> inverse the match, exclude directory
+        ls -RF /etc | grep -v / | grep -v "^$" --> another step further, exclude empty line by
+using regex "^$"
+        ls -RF /etc | grep -v / | grep -v "^$" | wc -l --> count how many lines
+        ls -RF /etc | grep -v / | grep -v "^$" | sort -r --> sort the result by name reversely
+with '-r'
+        ls -RF /etc | grep -v / | grep -v "^$" | sort -r | less --> put in less to view
+        ls -RF /etc | grep -v / | grep -v "^$" | sort -r > files --> save to a file name 'files'
+
+
+
+
+
+

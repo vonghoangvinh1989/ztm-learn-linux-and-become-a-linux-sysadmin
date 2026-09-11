@@ -39,5 +39,6 @@ command redirection (>, >>, 2>, &>, cut, tee) -> done
 quiz for piping and command redirection -> done
 finding files and directories part 1 (which, plocate) -> done
 finding files and directories part 2 (find) -> done
-find and exec --> waiting
+find and exec -> done
+searching for string patterns in text files (grep) --> waiting
 
