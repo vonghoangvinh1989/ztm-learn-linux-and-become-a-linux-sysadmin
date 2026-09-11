@@ -40,5 +40,8 @@ quiz for piping and command redirection -> done
 finding files and directories part 1 (which, plocate) -> done
 finding files and directories part 2 (find) -> done
 find and exec -> done
-searching for string patterns in text files (grep) --> waiting
+searching for string patterns in text files (grep) -> done
+searching for strings in binary files -> done
+quiz for locate, find and grep -> done
+comparing files (cmp, diff, sha256)
 

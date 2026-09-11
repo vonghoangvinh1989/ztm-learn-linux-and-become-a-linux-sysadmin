@@ -528,6 +528,18 @@ with '-r'
         ls -RF /etc | grep -v / | grep -v "^$" | sort -r | less --> put in less to view
         ls -RF /etc | grep -v / | grep -v "^$" | sort -r > files --> save to a file name 'files'
 
+19) Searching for strings in binary files (strings)
+    a) search in binary file 
+        strings /usr/bin/ls --> get printable text from binary file, here is '/usr/bin/ls'
+        strings /usr/bin/ls | less --> to easy to view and search 
+
+    b) search in binary file which is device file 
+        sudo strings -a /dev/sda5 --> using '-a' option to scan the whole file, here we can 
+try to get printable text from device file
+
+    c) search directly in memory file 
+        ls -l /dev/mem
+    
 
 
 
