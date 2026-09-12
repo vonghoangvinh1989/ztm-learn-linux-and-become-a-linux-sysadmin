@@ -539,9 +539,205 @@ try to get printable text from device file
 
     c) search directly in memory file 
         ls -l /dev/mem
+        sudo strings /dev/mem | less
     
+20) Comparing Files (cmp, diff, sha256)
+    a) Compare using 'cmp'
+        cmp a b --> compare two files a and b, showing the first byte and line mismatch
+            a b differ: byte 376, line 6
 
+        cmp /usr/bin/ls ./ls --> cmp can use to compare two binary files as well
 
+    b) Compare using calculating hash
+        sha256sum /usr/bin/ls ./ls --> calculate hash of two files and compare, if different hashes
+    means different content
+            48893b0fb21436b54619db80486e83ef39dfccaf1aefe83dfa00c02d6146e8c0  /usr/bin/ls
+            48893b0fb21436b54619db80486e83ef39dfccaf1aefe83dfa00c02d6146e8c0  ./ls
 
+    c) Compare using 'diff', but it is only use for text file, diff can help us to know what
+we need to do to make two files have identical content  (options: -i, -c, -B, -w, -y)
+        diff a b --> view the difference between file a and b
+        
+        diff -B a b --> ignore blank lines
 
+        diff -w a b --> ignore white spaces
 
+        diff /etc/ssh/sshd_config ./sshd_config --> view the difference between two files
+            35c35
+            < #Port 22
+            ---
+            > #Port 29
+
+            Note here:
+                35c35: 35 here is line 35, c: change or replace to get identical content (a: append, d:delete)
+                <: line from the first line 
+                >: line from the second line
+
+        diff -i /etc/ssh/sshd_config sshd_config --> ignore case sensitive in file content
+
+        diff -c /etc/ssh/sshd_config sshd_config --> more detail comparison
+
+        diff -y /etc/shs/sshd_config sshd_config --> if we want to display side by side into
+2 columns to see the differences
+
+21) The basics of VIM text editor
+    vi a.txt --> open new file, wq to write and exit
+    
+    vim sshd_config --> open file with vim
+        x -> delete the character under the cursor
+        r -> replace the character under the cursor
+        esc --> press couple times will get back to 'command' mode
+
+        i --> insert mode and write before the cursor
+        I --> insert mode and write text at the beginning of the line
+
+        a --> insert mode and write after the cursor
+        A --> insert mode and write text at the end of the line
+
+        o --> insert mode and write to new line before the current line
+        O --> insert mode and write to new line above the current line
+
+        : --> go to lastline mode and :q! to quit without saving
+        :w! --> save without closing the file (force with !)
+        :wq! --> save and closing the file
+        ZZ --> save and quit quickly
+
+        vimtutor --> to learn about vim
+
+22) The Vim Editor in depth part 1
+    a) Run command inside vim
+        :!ls --> go to last line mode with : and type '!command', here is running 'ls' command
+        :!ifconfig --> this will run command 'ifconfig' inside vim editor
+        :set nu --> showing the line number in vim document
+        :set nonu --> not showing the line number in vim document
+
+    b) Search in vim
+        /ssh --> search term 'ssh' forwardly in vim editor, moving between next matches (n and N)
+        ?ssh --> search term 'ssh' backwardly in vim editor
+
+        * --> put the cursor in the word you want to search and press '*', it will jump to
+the next occurrence of the word under the cursor forwardly
+        # --> same like above but the occurrence will be backwardly
+
+    c) Search and replace
+        :%s/no/XXX/g --> term search is 'no', term replace is 'XXX', g for globally, search
+    all 'no' in the text and replace those with 'XXX'
+
+    d) Reload the last save version on disk 
+        :e! --> reload the current file from disk and discard your unsaved changes, 
+or undo till the last saved version of the document (becareful, it will load the last save version of document, not undo)
+
+    e) Undo/redo the last operation
+        u --> undo the last operation 
+        Ctrl + r --> redo the previous operation
+
+    f)  Moving in vim
+        gg --> go to the beginning of the file 
+        G --> go to the end of the file 
+        0 --> go to the beginning of line 
+        $ --> go to the end of line 
+        b --> go to the beginning of word backwardly
+        e --> go to the end of word forwardly
+
+    g) Cutting in file 
+        dd --> cut one line, 2dd cut 2 lines, 10dd cut 10 lines (or NUMBERdd)
+        p --> paste the line under the current line of cursor
+        NUMBERdd --> to cut multiple line, we can use like 10dd to cut 10 lines
+
+    h) Copying in file 
+        Step 1: selecting with v (or visual mode)
+            v --> select character 
+            V (Shift + v) --> select whole lines
+            Ctrl + V --> select rectangular blocks and use Arrow keys to define the selection
+        
+        Step 2: copying 
+            y --> after selecting, press 'y' to yank or copy the content
+
+            Note: 
+                yy --> copy the whole line
+                3yy --> copy 3 lines
+                yw --> copy 1 word
+
+        Step 3: pasting
+            p --> paste after the cursor line
+            P (shift + p) --> paste before the cursor line
+
+    i) Enable/Disable syntax highlighting 
+        :syntax off --> disable syntax highlighting
+        :syntax on --> enable syntax highlighting
+
+    j) How to make settings of Vim go permanently, we can set in '.vimrc' hidden file 
+        vim ~/.vimrc
+            set nu
+            syntax on
+        :wq
+
+23) The vim editor in depth part 2
+    a) Moving in file
+        :100 --> move to line 100
+        G --> move to the end of the file
+        gg --> move to the beginning of the file or can use ':1'
+    
+    b) Open two files at the same time and switching between 2 files 
+        vim a b --> open 2 files, will open one file first
+        :n --> switch to the next file
+        :N --> switch to the previous file or type ':prev'
+
+    c) Open two files at the same time but with stacked windows
+        vim -o a b --> open 2 files in stacked windows
+        ctrl + ww --> moving between 2 windows
+        
+        vim -d /etc/ssh/sshd_config ./sshd_config --> open 2 files sides by sides 
+        ctrl + ww --> moving between 2 sides
+            note: vimdiff /etc/ssh/sshd_config ./sshd_config --> same like -d
+
+    d) Delete swap file
+        When you open a file like 'sshd_config' and not close it properly, next time you open
+    it will show the message like Quit or Abort, you can Quit it, after that delete '.swp' file
+    and open it again, it will show normally
+
+24) Compressing and Archiving Files and Directories
+    archiving is the process of put files into bigger file (not compress), 10 files 100KB -> 1 file 1000KB
+    compressing is the process of compressing files into a single with lower file size
+
+    tar: will create the archive, not compress them, but with option it will include compression algorithm
+        -c: create an archive 
+        -x: extract archive
+        -t: display contents of archive
+
+    a) Compress into gzip file 
+        sudo tar -czvf etc.tar.gz /etc --> compress directory into gz file
+            (c: archive, z: compress archive using gzip, f: specify the file name, need file name right after -f)
+
+    b) Compress into bzip file
+        sudo tar -cjvf etc.tar.bz2 /etc --> compress directory into bz2 file (smaller than gz but the process will be slower)
+            (j: bz2)
+    
+    c) Compress multiple files 
+        tar -czvf archive.tar.gz /etc/passwd /etc/group /var/log/dmesg --> compress multiple files into a single compressed file
+
+    d) Compress multiple files and directories
+        sudo tar -czvf archive.tar.gz /etc/passwd /etc/group /var/log/dmesg --> compress multiple files and directories into compressed file
+
+    e) Compress with exclude files with extension such as mkv, config and cache file =
+        tar --exclude="*.mkv" --exclude='.config' --exclude='.cache' -czvf myhome.tar.gz ~
+    
+    f) Extract tar file
+        tar -xzvf etc.tar.gz --> extract gz file
+        tar -xjvf etc.tar.bz2 -C /my_backup --> extract bz2 file into different directory with -C option
+
+    g) View the content of compress file, not extract it, could filter to look for the file what we need
+        tar -tf etc.tar.bz2 | grep sshd_config --> use option -t to view files/paths of compress file, 
+    not searching content of each files 
+
+    h) Compress file with current date using trick $(date +%F)
+        sudo tar -cjvf etc-$(date +%F).tar.bz2 /etc --> compress file with date to store backup
+
+    i) Extract .xz file 
+        tar -xvf ./coreutils-9.11.tar.xz
+
+    j) Some other commands to compress and extracts
+        gzip --> compress into gz archive
+        gunzip --> extract the gz archive
+        bzip2 --> compress into bz2 archive
+        bunzip2 --> extract the bz2 archive

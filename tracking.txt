@@ -43,5 +43,14 @@ find and exec -> done
 searching for string patterns in text files (grep) -> done
 searching for strings in binary files -> done
 quiz for locate, find and grep -> done
-comparing files (cmp, diff, sha256)
+comparing files (cmp, diff, sha256) -> done 
+the baiscs of vim text editor -> done
+the vim editor in depth - part 1 -> done
+the vim editor in depth - part 2 -> done
+quiz for vim editor -> done
+compressing and archiving files and directories (tar, gzip) -> done
+hard links and the inode structure --> waiting
+
+
+
 
