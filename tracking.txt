@@ -49,7 +49,18 @@ the vim editor in depth - part 1 -> done
 the vim editor in depth - part 2 -> done
 quiz for vim editor -> done
 compressing and archiving files and directories (tar, gzip) -> done
-hard links and the inode structure --> waiting
+hard links and the inode structure -> done
+working with symlinks. symlinks vs hard links -> done
+
+# section 5 - challenges - the linux file system
+challenges - path, ls, file timestamps and types, viewing files -> done
+challenges - cp, mv, rm, shred -> done
+challenges - tar, ln -> done
+challenges - locate, find -> done
+implement a new life system -> done
+
+# section 6 - mastering sed and regex in linux
+automating text editing with sed (stream editor) --> waiting
 
 
 

@@ -741,3 +741,83 @@ or undo till the last saved version of the document (becareful, it will load the
         gunzip --> extract the gz archive
         bzip2 --> compress into bz2 archive
         bunzip2 --> extract the bz2 archive
+
+25) Hard Links and the Inode Structure
+    a) Inode Structure 
+        + each file on the disk has a data structure called index node or inode 
+        + stores metadata information about the file such as: type, file's permission,
+    file's owner, group owner, timestamp information, file size and so on.
+        + contains all file information (but not file contents and name), there some pointers
+    to the data block of contents
+        + uniquely identified by an interger number called 'inode number'
+            ls -i --> list files with inode number (or ls -li)
+
+        + an association between a file structure and a file name is called 'hardlink'
+            ls -li a.txt 
+                2254657 -rw-rw-r-- 1 vonghoangvinh vonghoangvinh 0 Sep 13 15:15 a.txt
+
+            stat a.txt
+                File: a.txt
+                size: 0         	Blocks: 0          IO Block: 4096   regular empty file
+                Device: 8,2	Inode: 2254657     Links: 1
+                Access: (0664/-rw-rw-r--)  Uid: ( 1001/vonghoangvinh)   Gid: ( 1001/vonghoangvinh)
+                Access: 2026-09-13 15:17:57.746601455 -0600
+                Modify: 2026-09-13 15:15:15.841543009 -0600
+                Change: 2026-09-13 15:15:15.841543009 -0600
+                Birth: 2026-09-11 20:31:28.323747782 -0600
+
+            note: 1 here mean 1 hardlink, or stat command Links: 1
+
+    b) Create hardlink
+        ln a.txt b.txt --> create hard link named b.txt to the same inode as a.txt
+
+        ls -lirt --> view inodes
+            2254657 -rw-rw-r--   2 vonghoangvinh vonghoangvinh       0 Sep 13 15:15 b.txt
+            2254657 -rw-rw-r--   2 vonghoangvinh vonghoangvinh       0 Sep 13 15:15 a.txt
+            note we can see here a.txt and b.txt have the same inode
+
+        ifconfig > a.txt --> redirect output to a.txt
+        cat a.txt --> view content of file a.txt
+        cat b.txt --> see that the content of 'b.txt' is the same as 'a.txt', why because b.txt and a.txt 
+both point to the same inode of the same data
+
+        ln b.txt my_backup/c.txt --> create new hard link on different directory, now we have 
+3 hard links for the same inode
+        ls -lrti --> to view inode and check 
+
+        when we delete a file using rm, the entry from the directory that contains the file 
+    is removed and the link count of inodes is decremented, only it reaches 0, the disk space
+    associated with inode and the inode itself is freed for further reuse
+            rm a.txt --> check again with b.txt and my_backup/c.txt and see links decreased to 2
+
+        find . -inum 2254657 --> find all hard links with options -inum to the same inode, here is '2254657'
+        
+        find /usr -type f -links +1 -ls --> all all files in /usr have more than 1 hard links
+
+        Note: can not create hard link on directory or hard link on file in different partitions or disk,
+hardlinks can not cross file system boundaries
+
+26) Working with Symlinks
+    Symlink: like create a shortcut to a file, if the file is lost, symlink broken
+
+    a) Create the symlink
+        ln -s /etc/passwd ./pswd --> create a symlink of /etc/passwd to current directory with name 'pswd'
+
+        ps aux > processes.txt --> output content of command 'ps aux' to file processes.txt
+        ln processes.txt p.txt --> create hard link 'p.txt' of file 'processes.txt'
+        ln -s processes.txt symlink_p.txt --> create symlink 'symlink_p.txt' of file 'processes.txt'
+
+        mv processes.txt ./Desktop --> moving the original file to Desktop (hardlink will ok but symlink will be broken)
+        cat p.txt --> view content of hardlink file, okay
+        cat symlink_p.txt --> will show 'No such file or directory'
+
+    b) We can create symlink for directory
+        ln -s /etc etc-symlink --> create symlink for directory
+
+        note: the symlink can cross the file system, hardlink can not 
+            symlink contains only the path to its original file or directory, not content
+            symlink has its own inode
+            the permissions of symlink does not matter, since the permissions of original file will be checked
+
+    
+
