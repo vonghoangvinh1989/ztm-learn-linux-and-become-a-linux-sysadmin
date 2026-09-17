@@ -1,0 +1,90 @@
+1) Automating Text Editing with sed (stream editor)
+    Sed syntax: sed [options] 'command' file
+
+    sed 's/Ubuntu/Debian/' message.txt --> replace 'Ubuntu' by 'Debian' in the first occurence of each line
+in the content of message.txt
+
+    sed 's/Ubuntu/Debian/g' message.txt --> replace 'Ubunty' by 'Debian' in all occurences
+in the content of message.txt
+        note: it just shows the result in terminal, not editing the file in place 
+
+    sed -i 's/Ubuntu/Debian/g' message.txt --> same like above but edit the file
+in place, the content of file will be updated, -i: in-place
+
+    sed -i.bak 's/Debian/Pop0s/g' message.txt --> replace 'Debian' by 'Pop0s' but
+this time we create the backup file message.txt.bak before editing (option: -i.bak) 
+
+2) Real-world sed use case 
+    a) First Practical Example
+        sudo sed -i 's/^#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config --> find
+    any line that start with '#PermitRootLogin' after that is any and change to 'PermitRootLogin no'
+            ^: start of the line
+            .: one character (any but except newline)
+            *: 0 match or many match
+
+        grep PermitRootLogin /etc/ssh/sshd_config
+            PermitRootLogin no
+            # the setting of "PermitRootLogin prohibit-password".
+
+        sudo systemctl restart ssh --> restart ssh server after configured
+
+    b) Second Practical Example: ensure password authentication is disable
+        sudo sed -i 's/^#PasswordAuthentication.*/PasswordAuthentication no/ /etc/ssh/sshd_config --> find
+    any line that start with '#PasswordAuthentication' after that is any and change to 'PasswordAuthentication no'
+
+       sudo sed -i '$a PasswordAuthentication no' /etc/ssh/sshd_config --> in case line
+    'PasswordAuthentication' does not exist in the file, we can use this command to append 
+    'PasswordAuthentication no' to the new line with $a, append after the last line
+        $ --> sed address: choose the last line 
+        a --> sed command: append 
+
+3) Diving into Regular Expressions
+    grep '^root' /etc/passwd --> '^' means 'start of line', so it will find any line
+start with 'root'
+
+    grep 'nologin$' /etc/passwd --> '$' mean 'end of line', so it will find any line
+that end with 'nologin'
+
+    grep 'r.t' /etc/passwd --.> find any line contains 'r' and any character and 't'
+
+    echo -e "rt\nrot\nroot" | grep "ro*t" --> return all lines of echo because * means
+match zero or more of previous character, here is 'o'
+
+    grep '^[aru]' /etc/passwd --> find any line start with 'a', 'r' or 'u'
+    
+    grep '^[a-p]o' /etc/passwd --> find any line start with any character from a to p and
+after that is o in /etc/passwd 
+
+    Note: work with regex, always put it in single quotes '' to prevent the shell
+from interpreting special characters and test it with grep first before using it 
+in sed 
+
+4) Advanced sed and Regex Techniques for Sysadmins
+    sed syntax: sed '/pattern/action' file
+
+    a) delete empty line with sed
+        sed '/^$/d' message.txt --> delete all empty lines in message.txt, how? search
+line start and after that end immediately with '/^$/', 'd' is delete command in sed
+
+    b) append at the end of line
+        sed '$a # This is a footer line' message.txt --> add line '# This is a footer line'
+at the end of the fine message.txt
+
+    c) insert a line before the line contains the pattern
+        sed '/Server/i # Inserted before pattern' message.txt --> insert the line
+'# Inserted before pattern' before the 'Server'
+
+    d) sed in automation script
+        vim ssh.sh and write content like this:
+
+        for host in 192.168.1.10 192.168.1.11 192.168.1.12; do
+	        ssh $host "sudo sed -i 's/^#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config && sudo systemctl restart ssh"
+        done
+
+        --> it will connect to each host and connect ssh, change the sshd_config and restart ssh, really fast
+
+    e) suppress printing all output with sed and we can select with matched to print out 
+        sed -n '/r[a-z]c/p' messages.txt --> sed print out first match line 
+        sed -n '2p' messages.txt --> sed print out second match line (no need regex here)
+
+        

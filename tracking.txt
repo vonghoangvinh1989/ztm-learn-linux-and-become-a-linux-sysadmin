@@ -60,7 +60,13 @@ challenges - locate, find -> done
 implement a new life system -> done
 
 # section 6 - mastering sed and regex in linux
-automating text editing with sed (stream editor) --> waiting
+automating text editing with sed (stream editor) -> done
+real-world sed use case - configuring sshd_config automatically -> done
+diving into regular expressions -> done
+advanced sed and regex techniques for sysadmins -> done
+
+# section 7 - user accounts management 
+understanding /etc/passwd and /etc/shadow files --> waiting
 
 
 
