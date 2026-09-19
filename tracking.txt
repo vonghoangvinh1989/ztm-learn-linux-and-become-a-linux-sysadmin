@@ -66,7 +66,10 @@ diving into regular expressions -> done
 advanced sed and regex techniques for sysadmins -> done
 
 # section 7 - user accounts management 
-understanding /etc/passwd and /etc/shadow files --> waiting
+understanding /etc/passwd and /etc/shadow files -> done
+understanding linux groups (groups, id) -> done
+creating users account (useradd) -> done
+changing and removing user accounts (usermod, userdel) --> waiting
 
 
 

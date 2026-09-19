@@ -1,0 +1,93 @@
+1) understanding /etc/passwd and /etc/shadow files
+    a) /etc/passwd file 
+        /etc/passwd --> contains basic info about each user accounts in the system, there are 7 fields
+    in each line of record and each line means each user accounts
+    
+        For example:
+            vonghoangvinh:x:1001:1001:Vong Hoang Vinh:/home/vonghoangvinh:/bin/bash
+
+            + vonghoangvinh: login name
+            + x: pasword has been signed but store in the another file, if this is blank - user
+        does not need password to log in
+            + 1001: user id 
+            + 1001: group id
+            + Vong Hoang Vinh: this is comment, sometimes it lefts blank
+            + /home/vonghoangvinh: user's home directory 
+            + /bin/bash: default shell, usually set to /bin/bash, if we see 'no login' or 'false', that means 
+        system does not allow to log in
+
+    b) /etc/shadow --> only read by root accounts
+        vonghoangvinh:$y$j9T$9ennwZbAvVrsdqzHHKiAn.$gtia/cYJMozTisBLxxoHVKGqRvoPzlmmUXq89/1p9E2:20703:0:99999:7:::
+
+        + vonghoangvinh: username, it's how it connects to file /etc/passwd 
+
+        + $y$j9T$9ennwZbAvVrsdqzHHKiAn.$gtia/cYJMozTisBLxxoHVKGqRvoPzlmmUXq89/1p9E2: represent the password, if the password 
+    field contains '!' or '*', user can not login to system using password authentication
+        Normally password field will be formated in $type$salt$hash
+            $type: 1 -> md5
+                    2a -> blow fish
+                    2y -> eksblowfish
+                    5 -> sha-256
+                    6 -> sha-512
+                    y -> yescrypt
+
+            $salt: '9ennwZbAvVrsdqzHHKiAn.' random string to put in to make the hash unique even with the same password
+                for example, user1 and user2 have the same password 'test'
+                    user1:$y$j9T$4butPCrN6fQ0OoUvPmywM/$1VeKCqeAESbrsIfKRhPLMiWS03AGekaw8X20Vfvfpo.:20715:0:99999:7:::
+                    user2:$y$j9T$Vi7LfCErCij57VF0TraFp.$ljjqXQaQMBQSwLu8EhNN9FWxPZLtnV8u1qimoqUfdo1:20715:0:99999:7:::
+
+            $hash: 'gtia/cYJMozTisBLxxoHVKGqRvoPzlmmUXq89/1p9E2', hashed password
+
+            sometimes, it has $parameter like here with 'j9T' for yescript
+
+        + last 7 fields related to password expiration date, last password change, minimum and maximum, etc...
+
+2) understanding linux groups (groups, id)
+    two types of groups that a user can belong to 
+        primary group: 'id' is stored in /etc/passwd and group name in /etc/group
+        secondary groups: stored in /etc/group
+
+    a) find group id and search in /etc/group
+        grep vonghoangvinh /etc/passwd --> search group for user 'vonghoangvinh', and see
+that vonghoangvinh belong to group has id '1001'
+            vonghoangvinh:x:1001:1001:Vong Hoang Vinh:/home/vonghoangvinh:/bin/bash
+
+        grep 1001 /etc/group --> search group id '1001' for group file /etc/group
+            vonghoangvinh:x:1001: --> belong to group has the same name 'vonghoangvinh'
+
+    b) search the secondary group that a specific user belongs to 
+        + less /etc/group and search for 'vonghoangvinh' --> see the last field of the 
+    record contains the username, that's it the group user belong to (secondary group)
+            users:x:100:vonghoangvinh --> 'vonghoangvinh' belong to users group
+            adm:x:4:syslog,vonghoangvinh --> both 'syslog' and 'vonghoangvinh' belong to adm group
+
+        + groups --> list all the groups the current user belongs to, first group is the primary one 
+          groups root --> find the groups that user 'root' belongs to
+          groups vonghoangvinh --> find the groups that user 'vonghoangvinh' belongs to
+            vonghoangvinh : vonghoangvinh adm cdrom sudo dip plugdev users lpadmin
+    
+    c) get specific info about user and its group with 'id' command 
+        id --> show info about current users and its groups
+        id root --> show info about 'root' users and its groups
+
+3) Creating Users Accounts
+    a) create user with no option
+        sudo useradd u1 --> create user u1
+        less /etc/default/useradd --> view file for info of default settings of useradd 
+        less /etc/login.defs --> view file for info of default settings for login, etc 
+
+    b) create user with options
+        sudo useradd -m -d /home/james -c "C++ Developers" -s /bin/bash -G sudo,adm,mail james
+            -m: create home directory if not exist 
+            -d: define home directory folder 
+            -c: comment
+            -s: define login shell of james is /bin/bash
+            -G: secondary groups
+    
+        sudo useradd -e 2020-12-31 u2 --> create user u2 with expired date with option '-e'
+
+    c) view info about password aging and account expiration of user
+        sudo chage -l james --> view account expiration and password aging of james
+        sudo chage -l u2 --> view account expiration and password aging of u2
+
+        
