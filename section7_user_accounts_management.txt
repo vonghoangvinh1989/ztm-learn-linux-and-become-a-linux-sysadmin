@@ -90,4 +90,40 @@ that vonghoangvinh belong to group has id '1001'
         sudo chage -l james --> view account expiration and password aging of james
         sudo chage -l u2 --> view account expiration and password aging of u2
 
-        
+4) Changing and Removing User Accounts (usermod, userdel)
+    a) change the property of user using 'usermod'
+        sudo usermod -c "Golang developer" james --> change comment property of user 'james'
+        grep james /etc/passwd --> view info after changing
+            james:x:1006:1006:Golang Developer:/home/james:/bin/bash
+
+    b) change the primary group of user using '-g' (note that: -G for secondary group)
+        sudo usermod -g daemon james --> change the primary group of user james to 'daemon'
+        groups james --> view groups of james 
+            james : daemon adm mail sudo --> primary group become 'daemon'
+
+    c) change all secondary groups of user james using '-G' (overwrite the old group)
+        sudo groupadd developers --> create new group 'developers'
+        sudo groupadd managers --> create new group 'managers'
+        sudo usermod -G developers,managers james --> change the secondary group of user james 
+
+    d) append group to the secondary current group of user 
+        sudo usermod -aG sudo james --> append group 'sudo' to user james, other groups
+    stay the same 
+        groups james --> view james groups
+            james : daemon sudo developers managers
+
+    e) delete user with 'userdel'
+        sudo userdel u1 --> delete user u1, also delete group of that user if no other
+    users belong to that group but home directory still there
+
+        sudo userdell -r james --> delete user 'james' with his home directory and mail spool directory 
+
+5) Creating Admin Users 
+    sudo useradd -m -s /bin/bash toor --> create user 'toor'
+    sudo usermod -aG toor --> add toor to 'sudo' group to get the root privileged
+to run sudo commands such as cat /etc/shadow
+
+    
+
+
+

@@ -69,7 +69,11 @@ advanced sed and regex techniques for sysadmins -> done
 understanding /etc/passwd and /etc/shadow files -> done
 understanding linux groups (groups, id) -> done
 creating users account (useradd) -> done
-changing and removing user accounts (usermod, userdel) --> waiting
+changing and removing user accounts (usermod, userdel) -> done
+creating admin users -> done
+group management (groupadd, groupdel, groupmod) --> waiting
+
+
 
 
 
