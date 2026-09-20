@@ -123,7 +123,61 @@ that vonghoangvinh belong to group has id '1001'
     sudo usermod -aG toor --> add toor to 'sudo' group to get the root privileged
 to run sudo commands such as cat /etc/shadow
 
+6) Group management
+    a) create new group
+        sudo groupadd engineering --> create new group with name 'engineering'
+        
+        tail -n 3 /etc/group
+        sudo useradd -G engineering u3 --> create new user and add to group 'engineering'
+        groups u3
+            u3 : u3 engineering --> u3 belongs to group engineering as secondary group
+
+        sudo usermod -aG engineering u1 --> append user u1 to group engineering, other groups of that user still kept
+        groups u1
+            u1 : u1 engineering
+
+    b) how to change the group name (or set new name), use 'groupmod' with option -n: new name 
+        sudo groupmod -n engineers engineering --> change group name from 'engineering' to 'engineers'
+        groups u1 --> show the new group name 
+            u1 : u1 engineers
+
+    c) delete group with groupdel
+        sudo groupdel engineers --> delete the group with name 'engineers'
+
+7) User Account Monitoring
+    real user id or RUID: the user who initially logs in
+    effective user id or EUID: the current user in the shell
+
+    vonghoangvinh@ubuntu:~$ su root
+    Password: 
+    root@ubuntu:/home/vonghoangvinh# 
+        Note: vonghoangvinh is the real user id, but when using su root and change to root, root now is EUID
+
+    a) effective user
+        whoami --> print out the effective user id, here is 'root'
+        id -un --> same as 'whoami'
+        id --> print effective id and its group
+
+    b) real user
+        who --> display the username of real user id (actually who log the file /var/run/utmp)
+            (sudo cat /var/log/wtmp --> history of utmp file)
+        who -H --> login user and time login 
+        who -aH --> display more information
+
+    c) info about load average and list of logged in user
+        w --> show who are logged on and what they are doing
+        uptime --> show how many users logged in and load average
+
+        last --> show the listing of last logged in users
+        last root --> show the listing of last logged of 'root'
+        last vonghoangvinh --> show the listing of last logged of 'vonghoangvinh'
+
+    d) Other useful commands
+        systemctl status ssh --> check the status of 'ssh'
     
+
+    
+
 
 
 

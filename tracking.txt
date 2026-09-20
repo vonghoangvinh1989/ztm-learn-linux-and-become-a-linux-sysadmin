@@ -71,7 +71,14 @@ understanding linux groups (groups, id) -> done
 creating users account (useradd) -> done
 changing and removing user accounts (usermod, userdel) -> done
 creating admin users -> done
-group management (groupadd, groupdel, groupmod) --> waiting
+group management (groupadd, groupdel, groupmod) -> done
+user account monitoring -> done
+quiz for accounts management -> done 
+
+# section 8: challenges user account
+challenges user accounts --> waiting
+
+
 
 
 
