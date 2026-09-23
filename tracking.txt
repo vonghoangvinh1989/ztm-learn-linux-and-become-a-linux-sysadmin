@@ -76,7 +76,15 @@ user account monitoring -> done
 quiz for accounts management -> done 
 
 # section 8: challenges user account
-challenges user accounts --> waiting
+challenges user accounts -> done
+
+# section 9: linux file permissions
+understanding file permissions -> done
+octal (numeric) notation of file permissions -> done
+changing file permissions (chmod) -> done 
+the effect of permissions on directories --> waiting
+
+
 
 
 

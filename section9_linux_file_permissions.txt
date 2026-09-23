@@ -1,0 +1,97 @@
+1) Understanding the file permissions
+    Each file assigned to 3 different categories of users:
+    - file owner
+    - group owner
+    - others
+
+    3 file permissions types: read (r), write (w), execute (x)
+
+    ls -l /etc/passwd --> view the file '/etc/passwd' permission
+        -rw-r--r-- 1 root root 2965 Sep 20 19:08 /etc/passwd
+
+        -: means this is file
+        rw-: owner permission
+        r--: group permission
+        r--: other permission
+
+    ls -l users.txt --> owner has read and write permission, so he/she can modify a file 
+        -rw-rw-r-- 1 vonghoangvinh vonghoangvinh 240 Sep 20 20:44 users.txt
+
+    chmod u-r users.txt --> remove read permission of file users.txt 
+        --w-rw-r-- 1 vonghoangvinh vonghoangvinh 240 Sep 20 20:44 users.txt
+    cat users.txt --> will show error permission denied
+    id > users.txt --> still work since 'users.txt' still has the write permission 
+
+    chmod u-w users.txt --> now remove the write permission for 'users.txt'
+    ls -l users.txt --> check permission of users.txt now, there is no permission
+        ----rw-r-- 1 vonghoangvinh vonghoangvinh 145 Sep 20 20:47 users.txt
+    ifconfig > users.txt --> permission denied since it lost the write permission
+
+Note: read and write permissions does not apply to 'root', even 'root' does not have
+these permissions, 'root' still can view and modify the file (so only non-privilegde users get affected)
+
+2) Octal (numeric) notation of file permission
+    a) command to view
+        stat /etc/passwd --> another way to view permisison on linux file (octal and also have symbolic)
+            Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+
+    b) octal notation
+        For example:
+            0755 = 755
+            0644 = 644
+
+            r(read) = 4
+            w(write) = 2
+            x(execute) = 1
+            - (no permssions) = 0
+
+            rwx = 4 + 2 + 1 = 7
+            rw- = 4 + 2 + 0 = 6
+            r-- = 4 + 0 + 0 = 4
+
+            for example:
+                rw-rw-r-- = 664
+                rwxr---wx = 743
+                rwxr-xr-- = 754
+
+3) Changing File Permissions (chmod)
+    a) 'chmod' command 
+        Command 'chmod' is used to change file permission and only root or file owner can
+    change the file permission
+        Syntax: chmod [who] [operation] [permissions] filename
+
+        who: signify the user category whose permissions will be changed
+            u: user
+            g: group
+            o: other
+
+        operation: flag define whether permissions are to be removed, added or set 
+            -: remove
+            +: add 
+            =: change the current permissions to the specified Permissions
+
+        permissions: specify using letters 'r', 'w' or 'x'
+
+    b) how to use
+        chmod u-w user.txt --> remove write permission of owner on file user.txt
+        chmod u+rwx user.txt --> add 'read, write, execute' permission of owner of file user.txt 
+        chmod -v u-x,g+w,o-rwx user.txt --> remove 'execute' on user, add 'write' on group 
+    and remove 'read, write and execute' on group of user.txt, can -v to see more details with verbose
+        chmod ug-r,u+x,o-rwx user.txt --> remove 'read' of owner and group, owner add 'execute', and remove
+    'read, write and execute' of other 
+        chmod a+r,a-wx user.txt --> 'a' stand for all, all add 'read' and all remove 'write' and 'execute'
+
+        chmod ug=rw,o= user.txt --> instead of using '+' and '-', we can assign permission 
+    using '=', here user and group will have read and write, other will have no permission
+
+        chmod 644 user.txt --> using numeric to add permission
+        chmod 777 user.txt --> giving full permission for all categories
+        chmod 400 user.txt --> only 'read' permission for owner, other categories have no permissions
+        
+        ls -lR ./dir1 --> list permission and display recursively all files and folders in dir1
+        chmod -R 750 dir1/ --> change permission to 750 to all files and folders inside dir1
+
+        chmod --reference=i.txt user.txt --> make permission of 'user' is the same of 'i.txt' by
+    using 'i.txt' reference option 
+
+    
