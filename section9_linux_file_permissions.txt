@@ -94,4 +94,140 @@ these permissions, 'root' still can view and modify the file (so only non-privil
         chmod --reference=i.txt user.txt --> make permission of 'user' is the same of 'i.txt' by
     using 'i.txt' reference option 
 
+4) The effect of permissions on directories
+    a) set 'read' permisson on directory
+        chmod 400 linux/ --> set 'read' permission for directory 'linux'
+        ls -ld linux/ --> view permission of 'linux' directory 
+            dr-------- 3 vonghoangvinh vonghoangvinh 4096 Sep 23 18:20 linux
+
+            'read' permission in directory mean: directory's contents only showed
+        by 'ls', it does not give access to content of directory (could not remove the
+        file inside the directory or cd into that directory)
+
+        ls -l linux --> try to read the contet of directory, but only show ????
+            total 0
+            d????????? ? ? ? ?            ? ubuntu
+            -????????? ? ? ? ?            ? users.txt
+
+    but when I tried
+
+        mv linux/ l --> change the name of 'linux' into 'l' successfully, why? because the parent
+    of linux have permission 'rwx' to do that, changing directory name actually
+    works at level of parent (rename directory entry not 'linux' directory)
+
+    b) read and write permission on directory
+        chmod 600 linux/ --> add read and write permission for owner of 'linux' directory 
+        cd linux/ --> permission denied 
+        rm linux/users --> permission denied
+        touch linux/a.txt --> permission denied 
+
+        Note: 
+            Add the 'write' permission does not change much if the 'execute' permission 
+        does not set. But if we set both 'write' and 'execute', that means we can modify the 
+        directory content
+            Write permission has effect only along with execute permission
+            Execute permission on directory: mean access to directory content
+
+    c) read, write and execute permission on directory
+        chmod 700 linux/ --> add full permission for 'owner' of linux, can do anything
+    as above, (create, delete file, cd into directory, ls, ls -l, cat, etc)
+        chmod 000 linux/a.txt --> set no permission for file inside, what happen
+    if we try to delete 'a.txt', we free to do so since directory has the permission 
+
+        Note: permission on parent directory was more important than the permission on file
+
+    d) other notes 
+        ls -l linux/ --> list inside of 'linux'
+        ls -ld linux/ --> list that 'linux', self directory
+
+        File permissions → control what you can do with the CONTENT of a file.
+        Directory permissions → control what you can do with the ENTRIES inside the directory.
+        Renaming/deleting an entry → permissions are primarily checked on the PARENT directory.
+
+5) Combining Find and Chmod Commands Together 
+    When we change permissions recursively on path, we should exclude directory because sometimes we can 
+mistakenly make the directory useless such as directory only has 'read' and 'write' permission. And now
+how can we cd into that directory and read the content?
+    Solution: combine 'find' and 'chmod'
+
+    find ~ -type f -exec chmod 640 {} \; --> find all files in ~ and 
+set permissions to 640
+    find ~ -type d -exec chmod 750 {} \; --> find all directories in ~ and
+set permissions to 750
+
+6) Changing File Ownership (chown, chgrp)
+    Only root can change the file owner 
+
+    a) changing owner of file 
+        sudo chown toor cpu.txt --> change owner of 'cpu.txt' into 'toor'
+            -rw-rw-r-- 1 toor vonghoangvinh 2883 Sep 25 19:43 cpu.txt
+
+    b) changing owner of multiple files at the same time
+        sudo chown toor cpu.txt interfaces.txt i.txt linux/ --> change owner of multiple files
+and directories
     
+    c) changing owner of the file using 'user id' or uid instead of username
+        sudo chown +1001 cpu.txt --> instead of changing using username, we can use the user id 
+but add the + before the id to specify the parameter will be number user id
+
+    d) changing owner and group at the same time using 'chown' and ':'
+        sudo chown vonghoangvinh:daemon cpu.txt --> we can change the owner and group
+at the same time by separating it by ':' or colon (some allow to write like this: sudo chown vonghoangvinh.daemon cpu.txt)
+
+    e) changing group of file 
+        sudo chgrp sudo cpu.txt --> change the group of file 'cpu.txt' into 'sudo'
+
+    f) changing group of file using 'chown'
+        sudo chown :sudo cpu.txt --> change the group of file 'cpu.txt' into 'sudo'
+by using chown command with colon (:)
+
+    g) changing group and owner at the same time and recursively, should app to directories have files inside
+        sudo chown -R vonghoangvinh:vonghoangvinh ~ --> changing recursively directories
+and everything inside, we can use -R: recursively, changing both group and owner
+
+7) Understanding SUID (set user id)
+    + Temporarily treat normal user as root or another user, that when set user id comes into primarily
+    + Executable file with suid executed, the resulting process will have the permissions of owner of the file command, not
+the permissions of the user who executes the command
+
+    a) set suid bit and why 
+        cat /etc/shadow
+            cat: /etc/shadow: Permission denied
+
+        sudo chmod 4755 /usr/bin/cat --> add 'set user id' to /usr/bin/cat, 4 means 'set user id'
+        
+        ls -l /usr/lib/cargo/bin/coreutils/cat
+            -rwsr-xr-x 115 root root 11352352 Apr 16 06:41 /usr/lib/cargo/bin/coreutils/cat --> see the 'rws', s mean set user id bit
+    was set
+
+    b) remove 'execute' permission will see the capital S
+        sudo chmod u-x /usr/bin/cat --> remove 'execute' permission on this file 
+        
+        ls -l /usr/lib/cargo/bin/coreutils/cat
+            -rwSr-xr-x 115 root root 11352352 Apr 16 06:41 /usr/lib/cargo/bin/coreutils/cat --> see the capital 'S',
+    when we see the 'S' that mean that file lost the 'execute' permission 
+
+    c) view the permission suit bit with stat command
+        stat /usr/lib/cargo/bin/coreutils/cat --> we can view the suid bit by using 'stat'
+    command, 4775, 4 mean suid bit or small 's' in '-rws' 
+            File: /usr/lib/cargo/bin/coreutils/cat
+            size: 11352352  	Blocks: 22176      IO Block: 4096   regular file
+            Device: 8,2	Inode: 1969385     Links: 115
+            Access: (4755/-rwsr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+            Access: 2026-09-25 20:31:04.669499486 -0600
+            Modify: 2026-04-16 06:41:19.000000000 -0600
+            Change: 2026-09-25 20:31:03.932485441 -0600
+            Birth: 2026-07-03 22:38:29.617182479 -0600
+
+    d) set uid bit using symbolic
+        sudo chmod u+s /usr/bin/cat --> set suid bit using symbolic, now cat will have 
+the permission of its owner which is root no matter who is execute it
+        cat /etc/shadow --> can view the content of this file (before will be permission denied)
+
+    e) remove suid bit using symbolic
+        sudo chmod u-s /usr/bin/cat --> remove suid bit to make secure again (avoid bad habit or behavior or misuse)
+        cat /etc/shadow --> permission will be denied
+
+    f) find all file has at least suid bit set
+        find /usr/bin/ -perm -4000 -ls --> find all files have at least these Permissions
+

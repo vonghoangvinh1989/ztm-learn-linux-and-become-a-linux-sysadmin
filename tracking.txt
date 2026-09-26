@@ -82,7 +82,11 @@ challenges user accounts -> done
 understanding file permissions -> done
 octal (numeric) notation of file permissions -> done
 changing file permissions (chmod) -> done 
-the effect of permissions on directories --> waiting
+the effect of permissions on directories -> done
+combining find and chmod commands together -> done
+changing file ownership -> done
+understanding suid -> done
+understanding sgid --> waiting
 
 
 
