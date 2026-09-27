@@ -86,7 +86,14 @@ the effect of permissions on directories -> done
 combining find and chmod commands together -> done
 changing file ownership -> done
 understanding suid -> done
-understanding sgid --> waiting
+understanding sgid -> done
+understanding the sticky bit -> done 
+umask -> done
+understanding files attributes -> done
+
+# section 10: challenges file permissions
+    challenges - file permissions
+    
 
 
 

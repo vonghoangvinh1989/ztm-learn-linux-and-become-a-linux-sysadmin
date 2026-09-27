@@ -219,15 +219,140 @@ the permissions of the user who executes the command
             Change: 2026-09-25 20:31:03.932485441 -0600
             Birth: 2026-07-03 22:38:29.617182479 -0600
 
-    d) set uid bit using symbolic
+    d) set uid bit using symbolic mode
         sudo chmod u+s /usr/bin/cat --> set suid bit using symbolic, now cat will have 
 the permission of its owner which is root no matter who is execute it
         cat /etc/shadow --> can view the content of this file (before will be permission denied)
 
-    e) remove suid bit using symbolic
+    e) remove suid bit using symbolic mode
         sudo chmod u-s /usr/bin/cat --> remove suid bit to make secure again (avoid bad habit or behavior or misuse)
         cat /etc/shadow --> permission will be denied
 
     f) find all file has at least suid bit set
         find /usr/bin/ -perm -4000 -ls --> find all files have at least these Permissions
 
+8) Understanding SGID (Set Group ID)
+    + SGID mainly for directories
+    + set SGID on directories, all files or directories created inside will be owned by the same
+group owner of the directory where SGID was configured 
+    + useful in 'shared' directories, or directories that are writable at the group level 
+
+    a) SGID
+        chmod 2770 /programming/ --> set group id bit on directory 'programming'
+        chmod g+s /programming/ --> SGID using symbolic mode 
+    
+        ls -ld /programming/ --> check sgid mode was set in the folder, see the 's' in rws
+            drwxrws--- 2 pr1 programmers 4096 Sep 26 19:04 /programming/
+        
+        stat /programming/ --> instead of using 'ls -ld', we can use 'stat' command, check for
+    's' in rws or 2770 (2)
+            File: /programming/
+            size: 4096      	Blocks: 8          IO Block: 4096   directory
+            Device: 8,2	Inode: 1572866     Links: 2
+            Access: (2770/drwxrws---)  Uid: ( 1003/     pr1)   Gid: ( 1007/programmers)
+            Access: 2026-09-26 19:04:28.232797558 -0600
+            Modify: 2026-09-26 19:04:21.559724485 -0600
+            Change: 2026-09-26 19:06:49.077339956 -0600
+            Birth: 2026-09-26 19:02:13.168318468 -0600
+
+    b) check permissions using other user
+        su pr2 --> change user to pr2
+        cd /programming/ --> go inside directory 'programming'
+        touch source2.cpp --> create new file 'source2.cpp'
+        mkdir golang python --> create two new directories 'golang' and 'python'
+        ls -l --> check the permissions of directories and files inside, we can see 
+    that the group owner of these file is 'programmers' which is the group owner of 
+    parent directory '/programming/' based on group id set
+            drwxrwsr-x 2 pr2 programmers 4096 Sep 26 19:12 golang
+            drwxrwsr-x 2 pr2 programmers 4096 Sep 26 19:12 python
+            -rw-rw-r-- 1 pr1 pr1            0 Sep 26 19:04 source1.cpp
+            -rw-rw-r-- 1 pr2 programmers    0 Sep 26 19:12 source2.cpp
+
+        Note:
+            Since pr2 belongs to programmers, pr2 has:
+                r → can list names in /programming
+                w → can create/delete/rename entries in /programming
+                x → can access/search entries in /programming
+
+            File permission → read/modify file content
+            Directory permission → create/delete/rename entries inside
+            SGID → file/directory newly created will be inherited parent Group
+    
+9) Understanding the sticky bit
+    + Sticky bit apply to directories
+    + Sticky bit allows to create a directory that everyone can use as a shared
+file storage. The files are protected because no one can delete anyone's else files
+
+    chmod 1777 /temp/ --> setting sticky bit on directory '/temp/', purpose is not allow
+anyone can delete file of anyone's else, normally even user set 600 on files inside of 'temp',
+other users can still delete it because parent directory '/temp' allow permmissions on it
+    chmod o+t /temp --> using symbolic mode to set sticky bit
+    ls -ld /temp/ --> check sticky bit was set on that, see 't' on 'rwt'
+        drwxrwxrwt 2 root root 4096 Sep 26 19:45 /temp/
+
+    Note:
+        SUID → file → "run as owner"
+        SGID → directory → "inherit group"
+        Sticky → directory → "protect deletion"
+        Other directories have sticky bit set is: /var/tmp and /tmp
+
+10) Umask allows to view and set the default permissions on files and directories in linux
+    0666 for files --> full permissions for files
+    0777 for directories --> full permissions for directories
+    
+    a) view umask and understand 
+        umask --> show '0002' mean current permissions is 0777 - 0002 = 0775 for directories,
+    and 0666 - 0002 = 0664 for files
+
+    b) now we would like to have newly created file has permission 0644, how can we set
+umask. Now do the calculation: 0666 - 0644 = 0022, the value '0022' will be set for umask
+        umask 0022 --> the default permissions for files and directories
+
+        Create new file and directory, we will have 644 for files and 755 for directory
+            drwxr-xr-x   2 vonghoangvinh vonghoangvinh     4096 Sep 26 20:07 mydir1
+            -rw-r--r--   1 vonghoangvinh vonghoangvinh        0 Sep 26 20:07 myfile1
+
+    Note: umask just get affects on files/directories from that point it was set and it just happens
+on the current session, want it happen on permanently, we have to set it on .bashrc
+
+11) Understanding Files Attributes (lsattr, chattr)
+    Some useful attributes:
+        a: append
+        A: no access time updates
+        i: immutable - no modifed, no deleted, no renamed
+
+    a) view file attributes withs 'lsattr'
+    lsattr --> view file system attributes of files or directories in Linux
+        --------------e------- --> extends
+
+    b) add file attributes with 'chattr'
+        + append 
+            sudo chattr +a user.txt --> add attribute 'append' or 'a' in file user.txt 
+            lsattr user.txt --> view file attribute 'user.txt'
+                -----a--------e------- user.txt
+            ls > user.txt --> now we can not modify the content of the file
+                bash: user.txt: Operation not permitted
+            sudo ls > user.txt --> not even root can do that
+                bash: user.txt: Operation not permitted
+            ls >> user.txt --> but we can append to the file successfully
+
+        + no access time update
+            chattr +A user.txt --> add attribute 'no access time updates' with A
+            lsattr user.txt --> view file attributes
+                -----a-A------e------- user.txt
+            stat user.txt --> check atime and saw it was not updated since it was set 'A'
+
+        + immutable: can not be modified, can not be deleted, can not be renamed, can not create hardlink
+            sudo chattr +i i.txt --> add attribute 'immutable' for file 'i.txt'
+            
+            sudo rm -rf i.txt --> operation not permitted 
+            sudo ls > i.txt --> operation not permitted
+            sudo ls >> i.txt --> operation not permitted
+            sudo chmod 700 i.txt --> operation not permitted 
+
+            sudo chattr -R +i dir1/ --> add attribute 'immutable' recursively
+            lsattr -R dir1 --> view attributes recursively
+
+    c) remove attribute
+        sudo chattr -R -i dir1/ --> remove attribute -i recursively
+        sudo chattr -i i.txt --> remove attribute -i for file i.txt
