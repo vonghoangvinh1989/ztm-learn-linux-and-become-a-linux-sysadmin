@@ -1,0 +1,28 @@
+Challenge 1
+    ls -l linux/ubuntu.txt
+    sudo chmod o-rwx linux/ubuntu.txt
+
+Challenge 2
+    sudo chmod u-r linux/ubuntu.txt
+    cat linux/ubuntu.txt 
+        --> permission denied
+
+Challenge 3
+    sudo chmod 770 linux
+    sudo chmod 640 linux/ubuntu.txt 
+
+Challenge 4
+    sudo chmod 0667 linux 
+
+Challenge 5
+    sudo find ~ -type f -exec chmod 0640 {} \;
+    sudo find ~ -type d -exec chmod 0750 {} \;
+
+Challenge 6
+    sudo chmod u+s /usr/bin/ls
+
+Challenge 7
+    sudo chmod o+t linux/ --> change sticky bit
+
+Challenge 8
+    sudo chown -R vonghoangvinh:vonghoangvinh ~

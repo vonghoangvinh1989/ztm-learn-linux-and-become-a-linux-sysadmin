@@ -1,0 +1,32 @@
+1) Processes and the linux security model
+    a) Process
+        + A running instance of a program is called a process, it runs in its own memory space
+        + You execute a command, a new process starts
+        + A new process is created only when running an executable file (not when running
+    Shell builtin commands)
+
+        Process properties:
+            pid: process id, user, group, priority / nice
+
+        type cd --> cd is a shell builtin, not create new process 
+        type umask --> umask is a shell builtin, not create new process
+        type rm --> rm is /usr/bin/rm, can create new process
+
+    b) Process 2 
+        Type of Processes
+            Parent, Child, Daemon, Zombie (defunct), Orphan 
+        Pid 1: systemd or init
+        Zombie: terminated process whose data has not been collected
+        Orphan: parent process terminates before its child processes
+
+    c) Thread vs Process
+        Multiple threads can exist within a same process and they share resources
+    such as memory, we can think threads like subprocesses
+        Different processes do not share its resources
+
+    Note: tasks = processes 
+
+        
+        
+
+

@@ -92,8 +92,11 @@ umask -> done
 understanding files attributes -> done
 
 # section 10: challenges file permissions
-    challenges - file permissions
-    
+challenges - file permissions -> done
+
+# section 11: linux process management 
+processes and the linux security model --> waiting
+
 
 
 
