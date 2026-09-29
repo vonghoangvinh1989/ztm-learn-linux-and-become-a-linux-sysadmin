@@ -95,7 +95,9 @@ understanding files attributes -> done
 challenges - file permissions -> done
 
 # section 11: linux process management 
-processes and the linux security model --> waiting
+processes and the linux security model -> done
+listing processes (ps, pstree) -> done
+getting a dynamic real-time view of running system (top, htop) --> waiting
 
 
 

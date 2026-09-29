@@ -26,7 +26,51 @@
 
     Note: tasks = processes 
 
-        
-        
+2) Listing Processes (ps, pstree)
+    There are some commands can be useful for listing processes: ps, pgrep, pstree, top
 
+    a) Using ps command 
+        ps --> list processes running in the current terminal
+            PID TTY          TIME CMD
+            5599 pts/0    00:00:00 bash
+            7605 pts/0    00:00:00 ps
 
+            PID: process id
+            TTY: name of the controlling terminal for the process
+            TIME: cpu time of the process
+            CMD: name of the command that was used to start the process
+
+        ps -e --> list all processes
+            -e: list all processes
+
+        ps -f --> list processes with full status information
+            -f: display with full fomrat
+            
+        ps -ef --> list all processes with full status information
+
+        ps aux (or ps -aux) --> some extra columns was added to the info details
+
+        ps aux --sort=%mem | less --> we can sort ps using --sort option, this one is sort
+    based on %mem and ascending order
+
+        ps aux --sort=-%mem | less --> same as above but decending order
+
+        ps -f -u vonghoangvinh --> filter processes based on user with (-u), seeing 
+    all the 'vonghoangvinh' processes
+
+        ps -f u root --> seeing all root processes
+
+        ps -ef | grep sshd --> check process like daemon is running or not, here is checking
+    'sshd'
+
+    b) Using pgrep command
+        pgrep sshd --> find process using process name, here is 'sshd'
+        pgrep python3 --> find python process 
+
+        pgrep -l sshd --> showing process id and process name when found process
+
+        pgrep -u root sshd --> find running process by username and process name
+
+    c) Using pstree command
+        pstree | less 
+        pstree -c | less
