@@ -1,0 +1,13 @@
+Challenge 1:
+    ps -ef | grep bash
+or 
+    ps aux | grep bash 
+
+    pgrep -l bash
+
+Challenge 2: 
+    ps aux --sort=-%mem | less 
+    ps aux --sort=-%mem > processes.txt 
+
+Challenge 3:
+    

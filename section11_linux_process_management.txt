@@ -74,3 +74,134 @@
     c) Using pstree command
         pstree | less 
         pstree -c | less
+
+3) Getting a Dynamic Real-Time View of the Running System (top, htop)
+    a) Using top
+        top --> view dynamic running processes, load average should be less than 1 for healthy system,
+    by default 'top' refresh each 3 seconds 
+            h --> help menu
+            q --> to quit top
+            t --> view cpu with different views
+            m --> view memory with different views
+
+            d --> change time refresh, put '1' and press enter
+            Space --> refresh manually
+
+            x, y, b --> highlights
+            <, > --> move the sorting columns
+            R (capital R) --> reverse order
+            e --> change the unit
+
+            P --> sort by processor or cpu
+            M --> sort by memory
+            u --> sort by user (username or userid)
+
+            f --> enter fields management screen
+                'space' to select
+                right arrow key to select the field (up/down to move)
+                back arrow key to deslect the field
+                esc when done 
+            
+            W --> save the top confirugation permanently
+
+        top -d 1 -n 3 -b > top_processes.txt --> refresh every 1 second (-d 1), 
+refresh 3 times (-n 3) and run in batch mode (-b) which help output plain text instead of interactive UI 
+
+        grep rsyslogd top_processes.txt --> now we can use 'grep' to check services
+
+    b) Using htop
+        htop --> more visually top
+
+4) Signals and killing processes
+    a) list all signals
+        kill -l --> list all of the signals
+
+    b) how to find the process and send INT (interrupt signal) or -2
+        pgrep -l gedit --> find process id of 'gedit'
+            5919 gedit --> 5919 is process id
+        kill -2 5919 --> send sigint to gedit (sigint: interrupt, like Ctrl + C)
+
+        pidof firefox --> find process id quickly of 'firefox'
+            6725 6644 6398
+        sudo kill -INT 6725 6644 6398 --> instead of using number, use the signal name,
+    here is INT (Interrupt, same like -2), INT not sure to kill the process, it's just a
+    request to interrupt the process or invite to interrupt the process
+        
+        sudo kill -SIGINT $(pidof firefox) --> using full name (sig prefix and signal name) and
+    instead of copy and paste the process id related to firefox, we can use a command
+    substitution as $(pidof firefox)
+
+    c) another way to find process id and send HUP (hang up signal) or -1, use to reload configuration
+        cat /var/run/sshd.pid --> process of server normally found in a file typically located in the /var/run,
+    sshd.pid is its process id
+            1910
+        pgrep -l sshd --> show the same result '1910'
+        
+        sudo kill -1 1910 --> use the signal SIGHUP (Hang Up) to reload configuration
+    of service
+        sudo kill -1 $(cat /var/run/sshd.pid) --> same like above but use substitution 
+
+    d) SIGTERM: signal termination (15) or soft kill, the process may stop immediately, or delay after cleaning resources, or run forever,
+or simply ignore the signal
+
+    e) SIGKILL: signal kill (9) or hard kill
+        sudo kill -KILL process_id
+
+    f) killall will kill all processes with particular name (in case application will
+run several times and we want to kill all instances)
+        sleep 123& --> send to background
+        sleep 311& --> send to background
+        pgrep -l sleep --> check 'sleep' process
+        killall -15 sleep --> kill process with name instead of process id
+
+    g) pkill: kill the process using partial name (not need fullname)
+        pkill slee --> can kill 'sleep' process this way
+
+Note: default of kill is SIGTERM (15) when we do not specify
+
+5) Foreground and background processes
+    To start a background process: using '&'
+
+    sleep 20 & --> start sleep process in the background
+    ls -l /etc & --> start ls command in the background
+    ifconfig > output.txt 2> errors.txt & --> send output to output.txt and 
+error to file 'errors.txt' but do it in the background with ifconfig command
+    ping -c 1 google.com & --> ping google.com domain in the background
+    ping -c 1 google.com > /dev/null 2>&1 & --> when do not care about the result, 
+we can send to /dev/null, here is output and error send both to /dev/null or nowhere
+
+6) Job Control (jobs, fg, bg)
+    a) create background job
+        sleep 20 & --> [2] 9211, each background process have 'job id' and 'process id', here 'sleep'
+    has job id 2 and process id 9211
+
+    b) list all jobs 
+        jobs --> list all background jobs
+        jobs -l --> list all background jobs with process id also
+
+    c) check the job id and bring the background job to the foreground
+        fg %1 --> bring the background job with job id 1 to the foreground 
+
+    d) suspend the jobs with ctrl + z
+        sleep 10 --> and the press 'Ctrl + Z' to suspend the job in the foreground
+        jobs --> list jobs again
+        bg %1 --> resume the suppended job id 1 in the background
+
+        sleep 432 --> ctrl + z 
+        jobs --> list jobs
+        fg %1 --> resume the suspended job id 1 in the foreground
+
+    e) when we disconect, logout, close the terminal, HUP signal was sent to the process
+and the process get killed 
+        sleep 123 --> and close terminal
+        pgrep -l sleep --> open new terminal and type command, nothing showed
+
+    f) so what if we want to run a process in the background and close terminal, but
+expect the process is not terminated. We can use the 'nohup' command
+        nohup sleep 123 & --> run the process 'sleep 123' in background and avoid send hup signal,
+        pgrep -l sleep --> we see that process 'sleep' still running 
+
+        nohup ifconfig & --> run command ifconfig in the background and close terminal
+        cat nohup.txt --> view the content of the command ifconfig, nohup stores it at 'nohup.txt'
+
+        

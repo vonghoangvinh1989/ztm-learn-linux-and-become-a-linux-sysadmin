@@ -97,7 +97,18 @@ challenges - file permissions -> done
 # section 11: linux process management 
 processes and the linux security model -> done
 listing processes (ps, pstree) -> done
-getting a dynamic real-time view of running system (top, htop) --> waiting
+getting a dynamic real-time view of running system (top, htop) -> done
+signals and killing processes -> done
+foreground and background processes -> done
+job control (jobs, fg, bg) -> done
+quiz for process management -> done 
+
+# section 12: challenges linux processes
+    challenge 1 -> done
+    challenge 2 -> done 
+    challenge 3 --> waiting
+
+
 
 
 
