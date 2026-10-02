@@ -9,5 +9,25 @@ Challenge 2:
     ps aux --sort=-%mem | less 
     ps aux --sort=-%mem > processes.txt 
 
-Challenge 3:
-    
+Challenge 4:
+    top -d 1 -n 3 -b > top_processes.txt 
+
+Challenge 6:
+    ps -ef | grep terminal
+    kill 23012
+
+Challenge 7:
+    kill -2 $(pidof gedit)
+
+Challenge 8:
+    gedit &
+    pkill gedit
+
+Challenge 9:
+    jobs -l
+    fg %2
+
+Challenge 10:
+    sleep 100 &
+    nohup sleep  100 &
+    ps -ef | grep sleep (pgrep -l sleep)

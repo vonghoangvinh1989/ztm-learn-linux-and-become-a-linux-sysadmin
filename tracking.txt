@@ -104,9 +104,11 @@ job control (jobs, fg, bg) -> done
 quiz for process management -> done 
 
 # section 12: challenges linux processes
-    challenge 1 -> done
-    challenge 2 -> done 
-    challenge 3 --> waiting
+    challenges -> done 
+
+# section 13: networking in linux
+getting information about the network interfaces -> done
+configuring the network on the fly --> waiting
 
 
 

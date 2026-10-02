@@ -1,0 +1,31 @@
+1) Getting information about the network interfaces (ifconfig, ip a)
+    a) Using ifconfig
+        ifconfig -a --> display list of all network interfaces and ip address, both
+    enabled and disabled (lo: loopback interface, enp0s3: ethernet interface (en), port 0 (p0) slot 3 (s3) )
+
+        ifconfig --> display list of network and ip but only enabled
+
+        ifconfig enp0s3 --> display info of the specific interface, here is 'enp0s3'
+
+
+    b) Using ip a
+        ip address show --> display list of all network interfaces and ip address, 
+can write (ip addr show / ip a show / ip a)
+
+        ip -4 address --> show only ip ver 4
+
+        ip -6 address --> show only ip ver 6
+
+        ip addr show dev enp0s3 --> show info of specific interface 'enp0s3'
+
+    c) view default gateway
+        route --> view default gateway, UG (G) mean gateway at 'Flags'
+        route -n --> use number instead of symbolic host name
+
+        ip route show --> the same but use ip command
+
+    d) view dns server
+        resolvectl status --> can view dns server ip address
+
+2) Configuring the network on the fly
+    
