@@ -7,7 +7,6 @@
 
         ifconfig enp0s3 --> display info of the specific interface, here is 'enp0s3'
 
-
     b) Using ip a
         ip address show --> display list of all network interfaces and ip address, 
 can write (ip addr show / ip a show / ip a)
@@ -28,4 +27,60 @@ can write (ip addr show / ip a show / ip a)
         resolvectl status --> can view dns server ip address
 
 2) Configuring the network on the fly
+    a) Up and down network interface using ifconfig command
+        ifconfig enp0s3 down --> make the interface down and it's not displayed by the 'ifconfig'
+command 
+
+        ifconfig -a --> display them by using -a option to show all
+
+        ifconfig enp0s3 up --> up the network interface, can see the interface 'running'
+
+    b) Up and down network interface using ip command
+        ip link set enp0s3 down --> set the network interface down using 'ip' command (watch 'STATE down') 
+
+        ip link show dev enp0s3 --> show the interface enp0s3
+
+        ip link set enp0s3 up --> set the network interface up using 'ip' command, we can see the 
+status now 'STATE up'
+
+    c) setting ip address using ifconfig command
+        ifconfig enp0s3 192.168.0.111/24 up --> set the ip address for interface enp0s3,
+remember it will not be permanently, reset and it will be gone
+
+    d) setting ip address using ip command 
+        ip address del 192.168.0.111/24 dev enp0s3 --> remove the ip address '192.168.0.111/24'
+by using command 'ip'
+
+        ip address add 192.168.0.111/24 dev enp0s3 --> add the ip address '192.168.0.111/24'
+by using command 'ip'
+
+    e) setting default gateway
+        route del default gw 172.16.1.254 --> delete the default gateway
+
+        route add default gw 172.16.1.254 --> add the default gateway
+
+    f) setting default gateway using ip command
+        ip route del default --> delete the default gateway using 'ip' command 
+
+        ip route add default via 172.16.1.254 --> add the default gateway using 'ip' command 
+
+    g) setting mac address using ifconfig command
+        ifconfig enp0s3 down --> down the network interface 
+
+        ifconfig enp0s3 hw ether 08:00:27:51:05:09 --> change mac address of network interface 
+
+        ifconfig enp0se up --> up the network interface
+
+    h) setting mac address using ip command
+        ip link set dev enp0s3 address 08:00:27:51:05:01 --> set mac address using 'ip' command 
+
+        ip link show dev enp0s3 --> show network interface 
+
+
+
+
+
+
+
+
     
