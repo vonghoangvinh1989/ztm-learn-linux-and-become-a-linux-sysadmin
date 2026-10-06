@@ -108,7 +108,11 @@ quiz for process management -> done
 
 # section 13: networking in linux
 getting information about the network interfaces -> done
-configuring the network on the fly --> waiting
+configuring the network on the fly -> done
+quiz for network interfaces -> done
+setting up static ip on ubuntu (netplan) -> done
+testing and troubleshooting network connectivity -> done
+using ssh --> waiting
 
 
 

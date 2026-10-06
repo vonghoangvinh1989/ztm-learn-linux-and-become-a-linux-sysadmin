@@ -76,9 +76,67 @@ by using command 'ip'
 
         ip link show dev enp0s3 --> show network interface 
 
+3) Setting Up static ip on Ubuntu (netplan)
+    ls /etc/netplan --> contain the file to configure network with netplan
+    sudo su --> becoming root before settings
 
+    systemctl stop NetworkManager --> stop NetworkManager before configurating
+    systemctl disable NetworkManager --> disable NetworkManager so it won't start after system restart
+    systemctl status NetworkManager --> check the status of NetworkManager
 
+    systemctl is-enabled NetworkManager --> check NetworkManager start when restart or not
+        disabled 
 
+    vim /etc/netplan/01-netconfig.yaml --> create new yaml file to configure network
+        network:
+            version: 2
+            renderer: networkd
+            ethernets:
+                enp0s3:
+                dhcp4: false
+                addresses:
+                    - 172.16.1.93/24 --> ip we want to have 
+                gateway4: "172.16.1.254"
+                nameservers:
+                    addresses:
+                    - "8.8.8.8"
+                    - "8.8.4.4"
+
+    netplan apply --> apply the changes
+    
+    ifconfig --> to see the new ip address
+    route -n --> to see the default gateway
+
+4) Testing and Troubleshooting Network Connectivity
+    a) ping command
+        ping ubuntu.com --> ping the domain 'ubuntu.com' continuously
+
+        ping ubuntu.com -n --> ping but avoid doing 'reverse dns lookup'
+
+        ping -c 4 ubuntu.com --> ping but only sent 4 packets with option '-c'
+
+        ping -i 0.4 -c 5 google.com --> normally ping sent each packet each second, but we can change
+    that with option '-i', here is set '0.4' second 
+
+        sudo ping -q -c 5 google.com --> only showing the 'summary' after ping 
+
+        ping -t 1 -c 3 -n ubuntu.com --> ping with ttl is '1' to see what is the first router toward
+    'ubuntu.com'
+
+    b) how to troubleshooting network 
+        route -n --> check the default gateway
+
+        ping 172.16.1.254 --> ping the default gateway, if can not ping, then we have problem
+    in our LAN 
+
+        ping 8.8.8.8 --> ping public dns server such as google or (1.1.1.1), if can not ping,
+    problem with internet 
+
+        ping google.com --> ping internet domain, if it's not working, then we could have 
+    dns issue 
+
+        
+        
 
 
 
