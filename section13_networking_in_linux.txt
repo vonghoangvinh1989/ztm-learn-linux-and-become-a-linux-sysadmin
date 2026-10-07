@@ -135,7 +135,47 @@ by using command 'ip'
         ping google.com --> ping internet domain, if it's not working, then we could have 
     dns issue 
 
+5) Using ssh
+    sudo apt install openssh-server & openssh-client --> install ssh server and client 
+    sudo systemctl status ssh --> check status of ssh service
+    sudo systemctl is-enabled ssh --> check ssh 'enabled' when reboot (it will start at boot time)
+
+    ssh vonghoangvinh@172.16.1.93 --> ssh from client to ubuntu server with ip '172.16.1.93' and user 'vonghoangvinh'
+    ssh -l vonghoangvinh 172.16.1.93 --> specify the username 'vonghoangvinh' with '-l' option, the same like above
+
+    ssh -p 22 -l vonghoangvinh 172.16.1.93 --> connect with specific port
+
+    cat /etc/ssh/ssh_config --> ssh configuration file of client side 
+
+6) Troubleshooting ssh
+    Server side
+        systemctl status ssh --> check status of ssh in server side, should 'active' and 'running'
+
+    Client side
+        telnet 172.16.1.93 22 --> check port of listening of server with port 22 using telnet
+        nmap -p 22 172.16.1.93 -Pn --> check port 22 using nmap, 'closed' or 'open'
+    
+    Server side
+        sudo iptables -vnL --> check firewall of server drop the packet (or current rules)
+        sudo ufw status version --> view firewall rules but in user friendly mode 
+
+        sudo ufw disable --> disable ufw
+        sudo ufw enable --> enable ufw
+
+        sudo ufw app list --> list all current application profile 
+        sudo ufw allow ssh --> allow connect ssh to server machine via firewall
+
+    Client side
+        ssh -v vonghoangvinh@172.16.1.93 --> connect to server with verbose option, show more info (-Vv)
+
+    Server side
+        sudo tail -f /var/log/auth.log --> check the server log 
+
         
+    
+
+
+
         
 
 

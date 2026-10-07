@@ -112,7 +112,9 @@ configuring the network on the fly -> done
 quiz for network interfaces -> done
 setting up static ip on ubuntu (netplan) -> done
 testing and troubleshooting network connectivity -> done
-using ssh --> waiting
+using ssh -> done
+troubleshooting ssh -> done
+securing the openssh server --> waiting
 
 
 
