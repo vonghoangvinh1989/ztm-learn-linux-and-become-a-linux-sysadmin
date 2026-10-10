@@ -171,7 +171,67 @@ by using command 'ip'
     Server side
         sudo tail -f /var/log/auth.log --> check the server log 
 
-        
+7) Securing the OpenSSH Server 
+    ls /etc/ssh/sshd_config --> configure ssh file for daemon (server)
+    ls /etc/ssh/ssh_config --> configure ssh file for client 
+
+    sudo vim /etc/ssh/sshd_config --> open file configure with vim 
+        Port 2278 --> change port 22 to random port (before #Port 22)
+        PermitRootLogin no --> not allow root direct login into ssh
+        AllowUsers vonghoangvinh --> specify which users are allowed to ssh
+        ClientAliveInterval 300 --> set the interval to 300 seconds, the ssh server sends a message 
+    to check whether the client is still responsive
+        ClientAliveCountMax 0 --> never disconnect the client because of unanswered checks  
+
+Suppose we only permit 2 ips from network to allow to connect ssh 
+    sudo su --> becoming root 
+    iptables -A INPUT -p tcp --dport 2278 -s 'first ip address permit' -j ACCEPT
+    iptables -A INPUT -p tcp --dport 2278 -s 'second ip address permit' -j ACCEPT
+    iptables -A INPUT -p tcp --dport 2278 -j DROP 
+
+8) Copying Files Over the Network
+    a) Trouble shooting ssh connection before running scp command
+        sudo ufw status verbose --> check status current status firewall
+        sudo ufw allow 2278/tcp --> set firewall allow port 2278, because we already set
+    the ssh will listen on port 2278 on server before 
+
+        sudo systemctl restart ssh --> restart ssh
+        sudo systemctl restart ssh.socket --> restart ssh.socket
+        sudo systemctl status ssh --> check ssh status 
+        sudo systemctl status ssh.socket --> check ssh.socket status 
+
+        sudo ss -tlnp | grep ssh --> check ssh server is currently listening on which port
+
+    b) Running SCP command
+        + From client to server 
+            scp -P 22 ip.txt vonghoangvinh@172.16.1.93:~ --> copy file 'ip.txt' from client side to server - 172.16.1.93
+        with user 'vonghoangvinh' at home directory 
+
+            scp -P 22 ip.txt vonghoangvinh@172.16.1.93:~/ip_ubuntu_client.txt --> same like above
+        but this time change the filename into 'ip_ubuntu_client.txt'
+
+            scp -r -P 22 mydir1/ vonghoangvinh@172.16.1.93:~ --> copy the directory mydir1 to 
+        home directory in server (remember option -r with recursively)
+
+            scp -rp -P 22 mydir1/ vonghoangvinh@172.16.1.93:~ --> same but with option -p: lowercase p will
+        preserve modification time, access time from the source file 
+
+        + From server to client
+            scp vonghoangvinh@172.16.1.93:/etc/passwd /home/vonghoangvinh --> copy file '/etc/passwd' from
+        server to client side (: is how scp differentiate between server and client)
+
+            scp -r vonghoangvinh@172.16.1.93:~/Desktop /home/vonghoangvinh/TestingDesktop --> copy folder 'Desktop'
+        from server to client side into /home/vonghoangvinh/TestingDesktop
+
+        + From remote to remote
+            scp user@IP1:/path_to_source_file user2@IP2:/path_to_destination_dir --> copy file between
+        two remote machine, prompting will ask the password of two users
+
+
+
+
+
+
     
 
 
