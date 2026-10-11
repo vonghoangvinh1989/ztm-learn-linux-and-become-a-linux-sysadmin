@@ -114,7 +114,12 @@ setting up static ip on ubuntu (netplan) -> done
 testing and troubleshooting network connectivity -> done
 using ssh -> done
 troubleshooting ssh -> done
-securing the openssh server --> waiting
+securing the openssh server -> done
+copying files over the network scp -> done
+synchronizing files and directories using rsync -> done 
+using rsync over the network --> waiting
+
+
 
 
 

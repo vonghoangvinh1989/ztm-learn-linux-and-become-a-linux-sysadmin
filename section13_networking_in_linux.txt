@@ -227,9 +227,40 @@ Suppose we only permit 2 ips from network to allow to connect ssh
             scp user@IP1:/path_to_source_file user2@IP2:/path_to_destination_dir --> copy file between
         two remote machine, prompting will ask the password of two users
 
+9) Synchronizing Files and Directories using rsync
+    a) Trailing slash in rsync '/'
+        if type '/etc' --> rsync will copy directory 'etc' itself to the destination 
+        if type '/etc/' --> rsync will copy only the content of 'etc' to the destination
 
+    b) Using rsync to do the backup
+        sudo rsync -av /etc/ ~/etc-backup/ --> this rsync command can use to backup file and directories, -a: archive mode,
+    keep everything of the sources (permissions, etc)
 
+        sudo rsync -av /etc/ ~/etc-backup/ --> run this command again, rsync will do nothing, why? 
+    rysnc find files that need to be transferred using a quick check algorithm that look for files
+    that have changed in size or in last modified time, more efficient than the 'cp' command 
 
+        sudo rsync -aq /etc/ ~/etc-backup/ --> using '-q' quiet mode option, do not print anything instead of -v print everything
+
+        sudo rsync -av --delete /etc/ ~/etc-backup/ --> mirroring between source and destination, anything was not existed
+    in source (/etc) will be deleted in ~/etc-backup/ with --delete option 
+
+    c) Exclude files and directories when copying using rsync
+        sudo vim exclude_files.txt
+            movie1.mkv
+            dir1/
+            *.png
+
+        rsync -av --exclude-from='./exclude_files.txt' my_project/ backup/ --> backup content of 'my_project'
+    and exclude files and directory specified in 'exclude_files.txt'
+
+        rsync -av --exclude='*.png' my_project/ backup/ --> we can use '--exclude' option to specify the path_to_destination_dir
+    of files we would like to exclude 
+
+        rsync -av --exclude="*.png" --exclude='a.pdf' my_project/ backup/ --> we want to exclude multiple files,
+    using multipe --exclude options 
+
+        
 
 
     
