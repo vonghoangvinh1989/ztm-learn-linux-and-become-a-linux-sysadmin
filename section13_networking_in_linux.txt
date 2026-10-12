@@ -261,11 +261,111 @@ Suppose we only permit 2 ips from network to allow to connect ssh
     using multipe --exclude options 
 
         
+10) Using rsync over the network
+    a) Transfer data from the client machine to the remote machine (ubuntu)
+        From the client machine, type the command:
 
+        sudo rsync -av -e ssh /etc/ vonghoangvinh@172.16.1.93:~/etc-ubuntu/ --> copy content of '/etc/'
+    to server ubuntu at ip '172.16.1.93' to directory ~/etc-ubuntu/
 
-    
+        sudo rsync -av -e ssh /etc/ vonghoangvinh@172.16.1.93:~/etc-ubuntu/ --> run this command again,
+    nothing will be copied since rsync just copy anything changed 
 
+        sudo rsync -av -e ssh --delete /etc/ vonghoangvinh@172.16.1.93:~/etc-ubuntu/ --> mirroring 
+    between two directories, --delete will delete file in destination if that file in the source was deleted 
 
+        sudo rsync -av -e 'ssh -p 22' --delete /etc/ vonghoangvinh@172.16.1.93:~/etc-ubuntu/ --> specify the port 
+    with ssh and rsync
+
+    b) Transfer data from the remote machine to the client machine
+        From the client machine type the command: 
+
+        rsync -av -e ssh vonghoangvinh@172.16.1.93:~/my_project .  --> copy directory 'my_project' from the 
+    remote machine to current directory of client 
+
+11) Using wget
+    a) Download file
+        wget https://cdimage.kali.org/kali-2026.2/kali-linux-2026.2-installer-amd64.iso --> download kali linux image iso
+        
+        wget -P kali/ https://cdimage.kali.org/kali-2026.2/kali-linux-2026.2-installer-amd64.iso --> download image
+    into different directory
+
+        wget --limit-rate=100K -P kali/ https://cdimage.kali.org/kali-2026.2/kali-linux-2026.2-installer-amd64.iso --> download image
+    into different directory and with limit rate at 100 kilobytes per second (k: kilobytes, m: megabytes, g: gigabytes)
+
+        wget -c -P kali/ https://cdimage.kali.org/kali-2026.2/kali-linux-2026.2-installer-amd64.iso --> resume download when 
+    stopped 
+
+        vim images.txt 
+            link images1.png
+            link images2.png 
+        wget -i images.txt --> download multiple images was specified in file 'images.txt'
+
+        wget -b -c -P kali/ https://cdimage.kali.org/kali-2026.2/kali-linux-2026.2-installer-amd64.iso --> download iso file 
+    in the background with '-b' option 
+        tail -f wget-log --> check the status of download using log file 'wget-log'
+
+        nohup wget -b -c -P kali/ https://cdimage.kali.org/kali-2026.2/kali-linux-2026.2-installer-amd64.iso --> download iso file
+    using nohub to make it immune to the terminal closing
+
+    b) Download website
+        wget --mirror --convert-links --adjust-extension --page-requisites --no-parent http://example.org
+            --mirror: make the download recursively
+            --conver-links: convert all links including css stylesheets to relative path_to_source_file
+            --adjust-extension: add suitable extensions 
+            --page-requisites: download css and images to view offline 
+            --no-parent: do not go up to the parent directory 
+
+        wget -mkEpnp http://example.org --> shorten version of the above command 
+
+12) Checking for listening port 
+    a) Using netstat command 
+        sudo netstat -tupan --> u: udp port, p: proces id and the name of program we listening, a: all ports both listening
+    and not listening, n: shows numerical addresses
+            local address: 0.0.0.0 mean process is listening on all ip addresses of the host
+        
+        sudo netstat -tupan | grep :22 --> check port 22 is open or ssh
+        sudo netstat -tupan | grep :80 --> if no output, that means port 80 is not open 
+        sudo netstat -tupan | gres sshd --> filter 'sshd'
+
+    b) Using ss command
+        ss -tupan --> same like above netstat
+
+        lsof --> list open files, check which files are opened and which process is using them
+
+        sudo lsof -u vonghoangvinh --> list open files of user 'vonghoangvinh'
+
+        sudo lsof -u ^root --> list all open files not by 'root' (use negate by ^)
+
+        sudo lsof -c nginx --> list all files opened by process 'nginx'
+
+        sudo lsof -iTCP -sTCP:LISTEN --> list all TCP ports that are in LISTEN state and 
+    identify which processes are listening on them
+            -iTCP: display network resources associated with TCP
+            -sTCP:LISTEN filter the results to show only TCP socket in the LISTEN state
+
+        sudo lsof -iTCP -sTCP:LISTEN -nP --> see both ports and hostname in numeric format
+            -n: Displays numeric IP addresses instead of attempting hostname resolution.
+            -P: Displays numeric port numbers instead of service names such as ssh or http.
+
+        sudo lsof -iTCP:22 -sTCP:LISTEN -nP --> check which file is using open port 22, here 
+    systemd and sshd both listen on port '22'
+            COMMAND  PID USER  FD   TYPE DEVICE SIZE/OFF NODE NAME
+            systemd    1 root 354u  IPv4  18779      0t0  TCP *:22 (LISTEN)
+            systemd    1 root 355u  IPv6   9064      0t0  TCP *:22 (LISTEN)
+            sshd    1882 root   3u  IPv4  18779      0t0  TCP *:22 (LISTEN)
+            sshd    1882 root   4u  IPv6   9064      0t0  TCP *:22 (LISTEN)
+
+    c) check open port on different host using 'telnet'
+        telnet 172.31.19.255 22 --> check port 22 on machine ip '172.31.19.255'
+        telnet 172.16.1.93 25 --> check port 25 on machine ip '172.16.1.93'
+        telnet google.com 443 --> check port 443 on google.com 
+        telnet google.com 22 --> check port 22 on google.com
+
+    d) port scanning with nmap 
+        sudo nmap 172.16.1.93 --> scan port of 172.16.1.93
+        nmap -p 80 linux.com --> check port 80 is open or not at linux.com 
+        nmap -p 80 linux.com -sV --> to scan its version
 
         
 
