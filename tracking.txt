@@ -120,9 +120,15 @@ synchronizing files and directories using rsync -> done
 using rsync over the network -> done
 using wget -> done
 checking for listening ports (netstat, ss, lsof, telnet, nmap) -> done
-quiz for ssh, scp, rsync, netstat --> waiting
+quiz for ssh, scp, rsync, netstat -> done
 
+# section 14: challenges - networking in linux 
+challenges - networking interfaces -> done
+challenges - ssh, scp, rsync -> done
 
+# section 15: software management
+dpkg -> done
+intro to apt --> waiting
 
 
 

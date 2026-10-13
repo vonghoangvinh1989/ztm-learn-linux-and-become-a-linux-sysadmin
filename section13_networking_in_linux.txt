@@ -76,6 +76,9 @@ by using command 'ip'
 
         ip link show dev enp0s3 --> show network interface 
 
+    i) setting secondary ip address 
+       sudo ifconfig enp0s3:10 10.0.0.10/24 up 
+
 3) Setting Up static ip on Ubuntu (netplan)
     ls /etc/netplan --> contain the file to configure network with netplan
     sudo su --> becoming root before settings
@@ -202,6 +205,10 @@ Suppose we only permit 2 ips from network to allow to connect ssh
 
         sudo ss -tlnp | grep ssh --> check ssh server is currently listening on which port
 
+        Still not working?
+        sudo sshd -t --> test ssh server configuration for errors
+        sudo systemctl daemon-reload --> reload systemd unit configuration file
+        sudo systemctl restart ssh.socket --> restart ssh socket unit
     b) Running SCP command
         + From client to server 
             scp -P 22 ip.txt vonghoangvinh@172.16.1.93:~ --> copy file 'ip.txt' from client side to server - 172.16.1.93

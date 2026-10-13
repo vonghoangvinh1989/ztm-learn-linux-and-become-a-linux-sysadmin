@@ -1,0 +1,32 @@
+1) DPKG (Debian and Ubuntu Based Distros)
+    a) view info of deb file
+        sudo dpkg --info google_chrome.deb --> view info of file 'deb'
+
+    b) install deb file
+        sudo dpkg -i google_chrome.deb --> install 'google_chrome.deb'
+
+    c) view all installed packages
+        sudo dpkg --get-selections --> get all installed packages on the system
+
+    d) check version of specify package using dpkg-query with option -l
+        dpkg-query -l | grep chrome --> get version of chrome package using dpkg-query and filter 
+            ii: mean installed
+    
+    e) list all files related to a package
+        dpkg -L google-chrome-stable --> list all the files installed on the system from the package 'google-chrome-stable'
+    
+    f) how to search a file that belong to which package
+        which -a ls --> give result ''/usr/bin/ls', '/bin/ls'
+        dpkg -S /usr/bin/ls --> what package a specific file belong to, using S option, here give the 
+result 'coreutils-from-uutils: /usr/bin/ls'
+        dpkg -L coreutils-from-uutils --> list all files from the package 'coreutils-from-uutils'
+
+    g) remove a package using dpkg
+        sudo dpkg -r google-chrome-stable --> delete package 'google-chrome-stable' but not remove configurations 
+        sudo dpkg -P google-chrome-stable --> delete package and also remove configurations 
+
+    h) other commands related to dpkg
+        sudo dpkg -s google-chrome-stable --> check status of package 'google-chrome-stable'
+        sudo dpkg -l --> list all packages 
+        sudo dpkg -l | grep google-chrome-stable --> filter with 'google-chrome-stable'
+

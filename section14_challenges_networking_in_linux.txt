@@ -1,0 +1,49 @@
+Challenges Network interfaces
+
+Challenge #1
+    ifconfig -a / ip a show
+    route -n / ip route show
+    resolvectl status
+
+Challenge #2
+    ifconfig enp0s3 down 
+    sudo ip link set enp0s3 up
+    ifconfig enp0s3
+    ip address show dev enp0s3 / ip link show dev enp0s3
+
+Challenge #3
+    sudo ifconfig enp0s3 172.16.1.94/24 up
+    sudo ip address del 172.16.1.94/24 dev enp0s3
+    sudo ip address add 172.16.1.94/24 dev enp0s3
+
+Challenge #4
+    sudo ifconfig enp0s3:95 172.16.1.95/24 up
+
+Challenge #5
+    ifconfig enp0s3 down
+    ifconfig enp0s3 hw ether 08:00:27:51:05:09 
+    ifconfig enp0s3 up
+
+
+Challenges - SSH, scp, rsync
+
+Challenge #2
+    ssh -p 22 vonghoangvinh@172.16.1.93
+
+Challenge #3
+    Trouble shooting after configure ssh port
+        sudo sshd -t --> test ssh server configuration for errors
+        sudo systemctl daemon-reload --> reload systemd unit configuration file
+        sudo systemctl restart ssh.socket --> restart ssh socket unit
+
+Challenge #4
+    sudo scp -P 2266 test_directory test_file.txt vonghoangvinh@172.16.1.93:~
+
+Challenge #5
+    sudo scp -P 2266 vonghoangvinh@172.16.1.93:~/top_processes.txt ./
+
+Challenge #6:
+    sudo rsync -av -e 'ssh -p 2266' ./test_directory vonghoangvinh@172.16.1.93:~
+    sudo rsync -av -e 'ssh -p 2266' vonghoangvinh@172.16.1.93:~/images.txt .
+
+    
