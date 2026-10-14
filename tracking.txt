@@ -128,7 +128,10 @@ challenges - ssh, scp, rsync -> done
 
 # section 15: software management
 dpkg -> done
-intro to apt --> waiting
+intro to apt -> done 
+using apt -> done
+quiz for dpkg and apt -> done
+compiling programs from source code vs package manager --> waiting
 
 
 

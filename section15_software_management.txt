@@ -30,3 +30,50 @@ result 'coreutils-from-uutils: /usr/bin/ls'
         sudo dpkg -l --> list all packages 
         sudo dpkg -l | grep google-chrome-stable --> filter with 'google-chrome-stable'
 
+2) Using APT (Advanced Package Tool)
+    a) update the index of respository and get the lastest update
+        sudo apt update --> pull the latest changes from apt respository (update the index)
+
+    b) install package
+        sudo apt install apache2 --> install apache2
+
+    c) install multiple packages
+        sudo apt install gparted vlc --> install multiple package in one single command 
+
+    d) install a specific '.deb' file using apt
+        sudo apt install home/vonghoangvinh/Downloads/google-chrome-stable.deb --> install deb with apt, it will call 'dpkg'
+behind the scene (always provide the full path when install an application from a dev file using apt)
+
+    e) get available upgrade list
+        sudo apt list --upgradable --> get a list of all packages that can be upgraded 
+
+    f) upgrade whole system
+        sudo apt full-upgrade --> update system as a whole (apt full-upgrade -y: assume 'yes' if being asked)
+
+    g) remove a package
+        sudo apt remove apache2 --> remove an installed package, here is 'apache2' (it will uninstall the package, but can 
+leave some configuration behind)
+
+    h) remove a package and its configuration
+        sudo apt purge apache2 --> using 'purge' will uninstalled and also remove all configuration files 
+
+    i) remove unneeded dependencies after remove package
+        sudo apt autoremove --> to remove unneeded dependencies
+
+    j) check and clean cache of installed package
+        ls /var/cache/apt/archives --> store downloaded .deb package files that apt uses to install software
+        du -sh /var/cache/apt/archives --> check date usage of this directory
+        sudo apt clean --> remove everything of that directory except the 'lock file'
+
+    k) get available / installed packages
+        sudo apt list --> get all available or installed packages
+        sudo apt list | grep postfix --> find an available package such as 'postfix' mail server
+
+    l) find a package via package description, we can use apt search
+        apt search 'transparent proxy' --> search package with description 'transparent proxy'
+
+    m) get all installed packages in the system 
+        sudo apt list --installed --> get all installed packages
+
+    n) view detail info of a package
+        sudo apt show apache2 --> view detail info of apache2
