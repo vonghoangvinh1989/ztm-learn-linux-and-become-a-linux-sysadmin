@@ -77,3 +77,61 @@ leave some configuration behind)
 
     n) view detail info of a package
         sudo apt show apache2 --> view detail info of apache2
+
+3) Compiling C Programs 
+    Source compilation guide 
+        + install prerequisites: gcc, g++, make 
+            sudo apt update && sudo apt install build-essential
+        + download the source file 
+        + check the integrity of tarball (hash)
+        + extract the archive and move into the resulting directory 
+        + run: ./configure --help and set required compilation options 
+        + run: make 
+        + run: make install 
+
+    sudo apt update && sudo apt install build-essential --> update and install needed tools 
+
+    sudo vim hello.c --> create a 'c' application and try to compile it 
+        #include <stdio.h>
+        
+        int main() {
+            printf("Hello, world!\n");
+            return 0;
+        }
+
+    gcc hello.c -o hello --> compile code in hello.c into program name 'hello' (binary file)
+    ./hello --> run the binary file 
+
+4) Compiling Software from Source Code: Lab ProFTPD
+    a) Install step by step 
+        wget -c ftp://ftp.proftpd.org/distrib/source/proftpd-1.3.10rc4.tar.gz --> download the source code 
+
+        sha256sum proftpd-1.3.10rc4.tar.gz --> calculate sha256 and check with the website 
+
+        tar -xzvf proftpd-1.3.10rc4.tar.gz --> extract the source code file 
+
+        cd ./proftpd-1.3.10rc4 --> go inside the directory 
+
+        ls ./src --> source code of the server 
+
+        ls -l configure --> 'configure' file check the requirements and dependencies of the program are satisfied 
+
+        ./configure --help | less --> view configuration info 
+
+        ./configure --prefix=/opt/proftpd  --> configure with option --prefix to install in /opt/, check all requirements 
+    and dependencies, generate a file called 'Makefile'
+
+        make --> build your application with make 
+
+        sudo make install --> install the app, this will create the directory where the software will be installed 
+
+        cd /opt/proftpd --> go the directory what we just installed 
+        cd ./sbin --> go to sbin 
+
+        sudo ./proftpd & --> run in background proftpd 
+
+        pgrep -l proftpd --> check status of proftpd 
+
+    b) Install in short way 
+        ./configure --prefix=/opt/proftpd1 && make && sudo make install 
+

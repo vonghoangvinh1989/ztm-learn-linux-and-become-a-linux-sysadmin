@@ -131,7 +131,12 @@ dpkg -> done
 intro to apt -> done 
 using apt -> done
 quiz for dpkg and apt -> done
-compiling programs from source code vs package manager --> waiting
+compiling programs from source code vs package manager -> done
+compiling c programs -> done 
+compiling software from source code: lab proftpd -> done 
+
+# section 16: challenges - software management 
+
 
 
 
