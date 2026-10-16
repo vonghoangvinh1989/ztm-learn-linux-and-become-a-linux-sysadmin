@@ -1,0 +1,33 @@
+Challenge 1
+    sudo dpkg --info google-earth.deb
+    sudo dpkg -i google-earth.deb 
+
+Challenge 2
+    dpkg-query -l | grep earth
+    sudo dpkg -r google-earth-pro-stable 
+    sudo apt install ./google-earth-pro-stable_current_amd64.deb
+
+Challenge 3
+    sudo dpkg --get-selections 
+    
+    which -a rm
+    dpkg -S /usr/bin/rm
+    dpkg -L coreutils-from-uutils
+
+Challenge 4
+    sudo apt update
+
+    sudo apt install nginx 
+    sudo systemctl status nginx 
+    Firefox: localhost
+
+    sudo apt purge nginx
+    sudo apt autoremove 
+
+Challenge 5
+    sudo apt list | grep squid
+    sudo apt show squid 
+
+Challenge 6
+    sudo apt list --upgradable 
+    sudo apt full-upgrade -y

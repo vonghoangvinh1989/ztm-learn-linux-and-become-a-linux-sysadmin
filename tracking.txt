@@ -136,6 +136,11 @@ compiling c programs -> done
 compiling software from source code: lab proftpd -> done 
 
 # section 16: challenges - software management 
+challenges -> done 
+
+# section 17: system administration 
+task automation and scheduling using cron (crontab) --> waiting 
+
 
 
 
