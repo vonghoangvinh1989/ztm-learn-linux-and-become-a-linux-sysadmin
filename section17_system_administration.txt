@@ -1,0 +1,76 @@
+1) Task automation and scheduling using cron (crontab)
+    a) Understanding of cron
+    There are two types of cron jobs: system wide and individual user 
+        ls /var/spool/cron/crontabs/ --> files to store users' scheduled cron jobs
+        which crontab --> command to manage cron jobs is crontab 
+        ls -l /etc/crontab --> system wide crontab configure file 
+
+    crontab -l --> list all cron jobs of current user 
+    crontab -e --> using editor to edit current user's crontab file to create, modify or
+remove scheduled cron jobs
+        Note: 
+            + m h dom mon dow command --> minute, hour (24 hour: 0 - 23), date of the month, month, 
+                date of the week(0 - 7: 0,7 is Sunday, 1 is Monday, 6: Saturday) and command 
+            + if we put the "*" for the specific field, it mean always or any value for that field
+                * in the day or week mean: every day or every week 
+
+        + for example: we want to run a script to do backup everyday at 6am 
+            0 6 * * * /root/backup.sh --> '/root/backup.sh' is the bash script 
+
+        + for example: we want to run a script to monitor free disk every minute
+            * * * * * /root/check_space.sh --> every minute
+        
+        + for example: run a task at 4, 6 and 10 am 
+            0 4,6,10 * * * /root/check_space  --> run at 4, 6 and 10
+
+        + for example: run a task on weekdays between 9 and 5pm, once per hour using range
+            0 9-17 * * 1-5 /root/firewall.sh --> this mean run 1 time at 9, 1 time at 10 to 17 from monday to friday 
+
+        + for example: run a task at 4:10 and 21:10 every 3 days of the month
+            10 4,21 */3 * * /root/task.sh --> using / operator to specify values that will be repeated over a certain interval 
+
+        @yearly /root/happy_new_year.sh --> run the task once a year on the 1st of January at midnight 
+            or 0 0 1 1 *
+        
+        @monthly /root/task.sh --> run the task once a month at midnight on the 1st day of month
+            or 0 0 1 * * 
+        
+        @weekly /root/task.sh --> run the task once a week at midnight on Sunday 
+            or 0 0 * * 0
+
+        @daily /root/task.sh --> run the task once a day at midnight 
+            or 0 0 * * * 
+
+        @hourly /root/task.sh --> run the task once a hour at the beginning of hour 
+            or 0 * * * *
+
+        @reboot /root/task.sh --> run the specify task at boot time 
+
+    b) practical example 
+        */2 * * * * date >> /tmp/date_and_time.txt --> output date into file '/tmp/date_and_time.txt'
+    every two minutes
+
+        tail -f /var/log/syslog --> cron log file in ubuntu
+        cat /tmp/date_and_time.txt --> view content of date_and_time.txt 
+
+        crontab -r --> remove all cron jobs for current user
+
+    c) root user can edit, create and remove cron jobs for other users
+        sudo su --> become root 
+        crontab -e -u vonghoangvinh --> edit cron job for user 'vonghoangvinh'
+            * */5 * * * apt update 
+
+        crontab -r -u vonghoangvinh --> delete cron tab of user 'vonghoangvinh'
+
+    d) root user can restrict which user can use the crontab command using these two files
+/etc/cron.allow, /etc/cron.deny
+
+    e) system-wide cron job, we can move our scripts into these folders
+        + /etc/cron.daily/
+        + /etc/cron.hourly/
+        + /etc/cron.monthly/
+        + /etc/cron.weekly/
+
+        less /etc/crontab --> will specify exactly when cron job will be running
+
+        Note: use the absolute path for 'crontab'
