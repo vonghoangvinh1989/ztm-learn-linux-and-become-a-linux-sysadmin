@@ -140,7 +140,9 @@ challenges -> done
 
 # section 17: system administration 
 task automation and scheduling using cron (crontab) -> done
-scheduling tasks using anacron --> waiting
+scheduling tasks using anacron -> done
+quiz for cron and anacron -> done
+mounting and unmountine file systems --> waiting
 
 
 

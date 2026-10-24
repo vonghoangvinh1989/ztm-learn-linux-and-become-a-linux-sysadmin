@@ -74,3 +74,38 @@ remove scheduled cron jobs
         less /etc/crontab --> will specify exactly when cron job will be running
 
         Note: use the absolute path for 'crontab'
+
+2) Scheduling Tasks Using Anacron (anacron)
+    a) Understanding Anacron
+        cat /etc/anacrontab --> the file which specifies the anacron jobs is /etc/anacrontab 
+        sudo vim /etc/anacrontab --> view file with root privileges
+            7   10 cron.weekly  run-parts --report /etc/cron.weekly
+
+            Explanation: run-parts is the command runs all executable files found in the directory,
+                all executables or scripts found in /etc/cron.weekly be executed with a frequency of 7 days
+                
+                7 (first field): it specifies the frequency of the job, expressed in days (1: every day, 7: every 7 days or weekly)
+                    we can specify: '@daily, @weekly, @monthly' at this field
+                
+                10 (second field): delays in minutes, how long anacron will wait before executing the job 
+                
+                cron.weekly (third field): job identifer, should be unique and is the name of a file that will be created 
+                    at /var/spool/anacron. This is called the job timestamp file, will contain a single line that indicates
+                    'the last time this job was executed'
+                        
+                        sudo cat cron.weekly
+                            20261016
+
+                run-parts --report /etc/cron.weekly (fourth field): command that will be executed 
+            
+            For example:
+                2 1 backup date >> /tmp/anacron.txt
+            
+    b) Anacron commands
+        anacron -T --> check syntax error with -T for anacron testing
+            
+        sudo anacron -d --> run anacron job at debug mode, will run jobs that never run before 
+
+        sudo anacron -d --> run again, no jobs will be run since all be executed 
+
+        
