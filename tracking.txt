@@ -142,7 +142,11 @@ challenges -> done
 task automation and scheduling using cron (crontab) -> done
 scheduling tasks using anacron -> done
 quiz for cron and anacron -> done
-mounting and unmountine file systems --> waiting
+mounting and unmountine file systems -> done
+working with device files -> done
+getting system hardware information --> waiting
+
+
 
 
 

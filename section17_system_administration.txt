@@ -108,4 +108,66 @@ remove scheduled cron jobs
 
         sudo anacron -d --> run again, no jobs will be run since all be executed 
 
+3) Mounting and Unmounting File System
+    a) view file system with mount command and type
+        mount -l -t ext4 --> list filesystem was mount with type ext4 (-l: list, -t: type)
+        mount -l -t vfat --> list filesystem was mount with type vfat 
+
+    b) view char device
+        ls -l /dev/sdb --> this is char device file that represent usb stick 
+            brw-rw---- 1 root disk 8, 16 Oct 24 21:36 /dev/sdb
+    
+    c) find usb devices or partitions
+        sudo fdisk -l --> to find the name of the device file, we can use command fdisk with option -l for listing 
         
+        lsblk --> command to list all block devices 
+
+    d) mount and umount devices
+        sudo mount /dev/sdb1 /home/vonghoangvinh/Desktop/usb/ --> mount usb device into folder 'usb'
+
+        sudo mount -t ext4 /dev/sdb1 /home/vonghoangvinh/Desktop/usb/ --> mount the save at above but 
+with option '-t' ext4 to specify file system 
+
+        sudo umount /home/vonghoangvinh/Desktop/usb --> unmount the mount point, only unmount when the 
+partition is not used 
+
+        sudo umount -l /home/vonghoangvinh/Desktop/usb --> option '-l' mean 'lazy', it means unmount the 
+partition when it is not busy or not used 
+
+        sudo mount -o ro /dev/sdb1 /home/vonghoangvinh/Desktop/usb/ --> mount with other options using 
+option '-o' and ro here means 'read only'
+
+        sudo mount -o rw,remount /dev/sdb1 /home/vonghoangvinh/Desktop/usb/ --> remount the above with 'read write'
+
+        sudo mount /path_to_iso_file /home/vonghoangvinh/iso -o loop --> mount an iso file
+
+4) Working with device files (dd: command to convert and copy a file)
+    sudo su --> change to root privileges
+
+    dd if=/dev/sdb of=/home/vonghoangvinh/backup-usb.img status=progress --> backup device '/dev/sdb'
+into backup-usb.img file, (if: input file, of: output file), dd working with block, not data, it will copy everything 
+
+    dd if=/home/vonghoangvinh/backup-usb.img of=/dev/sdb status=progress --> restore from 
+the image file 
+
+    dd if=/home/vonghoangvinh/backup-usb.img of=/dev/sdb status=progress conv=sync --> short block will
+be added to have 512 bytes per block
+
+    dd if=/dev/sda2 of=/dev/sdb status=progress --> backup partition to /dev/sdb 
+
+    dd if=/dev/sda2 of=/root/mbr.dat bs=512 count=1 --> copy 512 bytes of partition /dev/sda2
+into file /root/mbr.dat, bs=512 means one block read/write has the size of 512 bytes, count=1 means
+just handle one block, backup of master boot record 
+
+    dd if=/root/mbr.dat of=/dev/sda2 bs=512 count=1 --> restore the mbr from the file mbr.dat
+in case of problem 
+
+    dd if=/home/vonghoangvinh/Downloads/kali-linux.iso of=/dev/sdb bs=4M status=progress --> make 
+bootable usb disk 
+
+
+
+
+
+
+
