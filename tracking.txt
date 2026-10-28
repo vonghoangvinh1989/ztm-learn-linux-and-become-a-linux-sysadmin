@@ -144,7 +144,10 @@ scheduling tasks using anacron -> done
 quiz for cron and anacron -> done
 mounting and unmountine file systems -> done
 working with device files -> done
-getting system hardware information --> waiting
+getting system hardware information -> done
+quiz for getting hardware information -> done
+intro to systemd -> done
+service management --> waiting
 
 
 

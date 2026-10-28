@@ -165,9 +165,87 @@ in case of problem
     dd if=/home/vonghoangvinh/Downloads/kali-linux.iso of=/dev/sdb bs=4M status=progress --> make 
 bootable usb disk 
 
+5) Getting System Hardware Information
+    a) Get hardware info
+        sudo su --> become root 
 
+        lshw --> extract detailed info of hardware configuration of machine 
 
+        lshw | less --> pipe to less to view
 
+        lshw -json | less --> output with 'json' format
+        
+        lshw -html > hw.html --> output with 'html' format and write to file hw.html 
 
+        lshw -short --> view brief info of hardware
 
+        inxi -Fx --> alternative command to show hardware information
+
+    b) Get CPU info
+        lscpu --> display info about cpu and its architecture 
+        lshw -C cpu --> display info about cpu but in another format 
+
+        lscpu | grep -i mhz --> we can use filter to get the info we need, 'here is mhz'
+        lscpu -J --> output with json format about cpu
+
+    c) Get memory info
+        dmidecode -t memory --> get info about memory 
+        dmidecode -t memory | grep -i size --> search only for size of memory 
+        dmidecode -t memory | grep -i max --> find the maximum capacity for memory 
+
+        free -m --> check the capacity of memory used or free 
+
+    d) Get pci ports info
+        lspci --> list all the pci buses and detailed about the devices connect to them 
+
+        lspci | grep -i wireless --> get info about wireless card 
+        lspci | grep -i vga --> get info about vga
+
+    e) Get usb ports info
+        lsusb --> get info about usb ports 
+        lsusb -v --> print out detailed info about each usb port with option -v: verbose 
+
+    f) Get hard drive info
+        lshw -C disk --> get info about hard drive with lshw 
+        lshw -C disk -short --> get the short version of above
+
+        lsblk --> get info of all block devices, including hard disks and partitions
+
+        fdisk -l --> get more info about hard drive such as file system type, number of sectors, etc
+        fdisk -l /dev/sda --> get info of '/dev/sda'
+
+        hdparm -i /dev/sda --> get/set of sata drive
+        hdparm -I /dev/sda --> get identification info directly of sata drive with more detail
+
+        hdparm -t --direct /dev/sda --> test the hard drive and get benchmark
+            --direct: bypass the page cache
+            -t: perform timing 
+
+    g) Get info about wireless device 
+        iw list --> show info about wireless device 
+        iw list | less 
+
+    h) Most of the commands so far get info from /proc
+        cat /proc/cpuinfo --> get info of cpu 
+        cat /proc/meminfo --> get info of memory
+        cat /proc/partitions --> get info of disk partitions 
+        cat /proc/version --> see the version of running kernel
+
+    i) Get version of running kernel 
+        uname -r --> get info of running kernel with -r: kernel release 
+        uname -a --> get all info of running kernel 
+
+    j) Get info of battery 
+        acpi -bi --> get battery info include capacity and charge status 
+        acpi -V --> get all info 
+
+6) Intro to systemd: initialize the system at boot time
+    ps -ef --> check process with pid is 1, this is systemd
+    
+    systemctl --version --> check version of systemd
+
+    systemd-analyze --> analyze boot time and etc 
+
+    systemd-analyze blame --> display systemd units sorted by the time they took to initialize
+during boot, from the longest to the shortest
 
