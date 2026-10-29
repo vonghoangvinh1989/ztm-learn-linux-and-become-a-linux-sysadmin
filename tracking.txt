@@ -147,7 +147,12 @@ working with device files -> done
 getting system hardware information -> done
 quiz for getting hardware information -> done
 intro to systemd -> done
-service management --> waiting
+service management -> done
+quiz for systemd and systemctl -> done 
+exercise imposter syndrome -> done 
+
+# section 18: challenges system administration 
+challenges --> waiting
 
 
 

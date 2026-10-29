@@ -249,3 +249,38 @@ bootable usb disk
     systemd-analyze blame --> display systemd units sorted by the time they took to initialize
 during boot, from the longest to the shortest
 
+7) Service Management (systemd amd systemctl)
+    a) start, stop, reload, restart service
+        sudo su --> becoming root
+
+        systemctl status nginx.service --> check status of nginx service (or we can run systemctl status nginx)
+
+        systemctl stop nginx --> stop the service nginx 
+
+        systemctl start nginx --> start service nginx 
+        systemctl restart nginx --> restart nginx service 
+
+        systemctl reload nginx --> if the configuration allows reload to apply new configuration, we can 
+    use the 'reload'
+
+        systemctl reload-or-restart nginx --> sometimes we do not know we should 'reload' or 'restart', we can 
+    use 'reload-or-restart' like this, it will reload the configuration in place if possible, otherwise it will 
+    restart the service 
+
+    b) enable and disable service at boot time
+        systemctl enable nginx -> to configure a service to start at boot time, use the 'enable' command
+
+        systemctl is-enabled nginx --> check service is start at boot time 
+
+        systemctl disable nginx --> disable nginx at boot time 
+
+    c) prevent systemd from starting a service 
+        systemctl mask nginx --> block service from starting (can not start or enable) using 'mask'
+    command
+
+        systemctl unmask nginx --> unblock the service
+
+    d) list systemd unit
+        systemctl list-units --> list of all of the active units that systemd knows about
+
+        systemctl list-units --all --> list of all units (active or inactive)
