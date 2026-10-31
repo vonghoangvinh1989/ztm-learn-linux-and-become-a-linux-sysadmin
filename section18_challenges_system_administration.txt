@@ -1,0 +1,57 @@
+Challenge 1:
+    */3 * * * * date >> date_and_time.txt 
+
+Challenge 2:
+    10 5 * * 0 apt update && apt full-upgrade -y 
+
+Challenge 3:
+    findmnt / --> find root partition
+    sudo mount /dev/mapper/ubuntu--vg-ubuntu--lv ./Desktop/TestRoot/
+
+Challenge 4:
+    sudo mount ~/Downloads/slides.iso ./Slides/ -o loop
+
+Challenge 5:
+    sudo apt install nginx
+    sudo systemctl status nginx
+    sudo systemctl disable nginx
+    sudo systemctl is-enabled nginx
+
+Challenge 6:
+    lshw -html > hardware.html
+
+Challenge 7:
+    dmidecode -t memory | grep max 
+    dmidecode -t memory | grep -i max
+    dmidecode -t memory | grep -i size
+    free -m 
+
+Challenge 8:
+    lshw -C network 
+    iw list | less 
+    lspci | grep -i wireless
+    cat /proc/net/wireless 
+
+    iwconfig wlo1
+    iwlist wlo1 scan 
+
+Challenge 9:
+    sudo su
+
+    lsblk 
+    fdisk -l 
+    fdisk -l /dev/sda 
+    lshw -C disk 
+    lshw -C disk -short
+    hdparm -i
+    hdparm -i /dev/sda 
+    cat /proc/partitions 
+
+Challenge 10:
+    hdparm -tT --direct /dev/sda
+
+Challenge 11:
+    acpi -bi 
+    acpi -V 
+
+    

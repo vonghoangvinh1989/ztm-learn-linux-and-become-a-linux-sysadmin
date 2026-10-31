@@ -152,7 +152,12 @@ quiz for systemd and systemctl -> done
 exercise imposter syndrome -> done 
 
 # section 18: challenges system administration 
-challenges --> waiting
+challenges -> done 
+
+# section 19: using ai and natural language to administer linux system 
+project introduction -> done
+installing and configuring shell gpt --> waiting 
+
 
 
 
