@@ -1,0 +1,59 @@
+1) Installing and configuring ShellGPT
+    pip3 install shell-gpt --> install in python environment 
+
+    export OPENAI_API_KEY='something something' --> set api key for OPEN_API_KEY env
+
+    env | grep -i openai --> check environment variable
+
+    sudo vim ~/.bashrc --> open .bashrc file and input the OPEN_API_KEY line to make it permanent 
+        (cat ~/.config/shell_gpt/sgptrc --> we also can put the OPEN_API_KEY in this file)
+
+    sgpt "Distance to Mars" --> add shell gpt with prompt questions 
+
+2) Using shellgpt like a pro
+    a) Chat mode
+        sgpt --help
+
+        sgpt "command to show docker image"
+
+        sgpt "command to show docker images. Answer with the command only"
+    
+    b) Shell mode
+        sgpt --shell "update my system"
+
+        sgpt --shell "list all files in /var/log sorted by size"
+
+        sgpt -s "create a new user called dan and add it to the sudo group" --> shorter 
+    version with (-s: shell)
+
+        sgpt --execute --shell "list all files in /var/log sorted by size" --> make the shell gpt
+    run the command 
+
+        sgpt -se "create a new user called dan and add it to the sudo group" --> shorter 
+    version with (-s: shell, -e: execute)
+
+        spgt -se "show all open ports" --> ask shell gpt show all open ports and execute the command 
+
+    c) Code mode 
+        sgpt --code "Bash script that prompts the user for a directory and the creates an archive of that
+    directory. Also check that directory exists."
+
+        sgpt --code "Bash script that prompts the user for a directory and the creates an archive of that
+    directory. Also check that directory exists." > backup_dir.sh 
+
+3) The Chat Feature of ShellGPT
+    sgpt --chat ssh --code "Python script that runs commands on a remote host using ssh" --> ssh here is the name 
+of the session
+
+    sgpt --chat ssh --code "remote ip=200.0.01 and for authentication use: user=admin, password=randomSecret, port=99"
+
+    sgpt --chat files --shell --execute "What are the files in /var/log ?" --> 'files' is the name of the chat session, we can name it anything 
+
+    sgpt --chat files --shell --execute "sort them by size and display the inode number"
+
+    sgpt --list-chat --> list all chat sessions 
+
+    sgpt --show-chat ssh --> show messages of 'ssh' session 
+
+    sgpt --temperature 0 --code "bash script that renames all files in the current directory
+to \"current date\" + \"old name\""

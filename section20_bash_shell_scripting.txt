@@ -1,0 +1,76 @@
+1) Bash Aliases
+    a) Alias commands
+        alias --> list all current alias commands
+
+        \ls --> run the original 'ls' command, not alias ls command 
+
+        alias c="clear" --> create 'c' is the alias of 'clear' command 
+            (to make the alias permanent, we have to put it in ~/.bash_profile, ~/.bashrc)
+
+        date +%F\ %T --> command to show date and time with format "2026-11-01 11:16:30"
+
+        alias now="date +%F\ %T" --> create 'now' is the alias of date command 
+        
+        source ~/.bashrc --> read and execute commands from a file in the current shell environment (use in case
+    of create new alias in .bashrc and need current shell read again)
+
+        unalias now --> to remove the alias 'now'
+
+    b) Useful aliases
+        alias server1="ssh -p 2234 user1@79.1.3.5"
+
+        alias ports="netstat -tupan"
+
+        alias root="sudo su"
+
+        alias update="sudo apt update && sudo apt dist-upgrade -y && sudo apt clean"
+
+        alias lt="ls -hSF --size -1"
+
+2) Intro to Bash Shell Scripting 
+    echo $0 --> check what shell are running /usr/bin/bash, runnin bash shell
+
+    cat /etc/shells --> list available shells
+
+    vim first_script.sh --> create first script with content below
+        mkdir -p dir1
+        echo "some text" > dir1/file.txt
+        ls -l dir1
+        cat dir1/file.txt
+
+    chmod 700 first_script.sh --> add permissions for script 
+
+3) The Bash Shebang and comments
+    Note: shebang (#!): indicate which program to run as intepreter with the script file 
+    
+    #!/bin/bash --> shebang for bash script
+   
+    #!/usr/bin/python3 --> shebang for python3 script
+
+    which python3 --> search for location of python3 
+
+    # --> use for comments in script
+
+4) Running scripts
+    a) first way to run the script is adding permission to the file and run with absolute path or relative path such as ./my_script.sh or
+/home/vonghoangvinh/scripts/first_script.sh 
+
+    b) second way to run the script is writing the name of the program or intepreter and the script name
+        bash first_script.sh --> run bash script with 'bash' 
+        python3 myscript1 --> run python script with 'python3'
+
+        Note: in this way, script does not need to have execute permission to run and it also overwrites the 
+    shebang directive
+
+        chmod -x first_script.sh --> remove running permission 
+        bash first_script --> still running
+
+    c) third way to run the script is using 'source' command 
+        source first_script.sh --> run script with source, but the different is the script will be 
+    running in the current shell (if we run: ./first_script.sh, the script will be run in the new shell or subshell)
+
+        . first_script.sh --> is the same as 'source first_script.sh' 
+
+Note: the most common one to run is the first method 
+
+    

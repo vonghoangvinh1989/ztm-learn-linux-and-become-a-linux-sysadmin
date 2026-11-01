@@ -156,7 +156,18 @@ challenges -> done
 
 # section 19: using ai and natural language to administer linux system 
 project introduction -> done
-installing and configuring shell gpt --> waiting 
+installing and configuring shell gpt -> done 
+using shellgpt like a pro -> done 
+the chat feature of shellgpt -> done
+
+# section 20: bash shell scripting 
+bash shell scripting examples -> done
+bash aliases -> done
+intro to bash shell scripting -> done
+the bash shebang and comments -> done
+running scripts -> done 
+quiz for bash shell scripts -> done 
+variable in bash --> waiting
 
 
 
