@@ -73,4 +73,82 @@
 
 Note: the most common one to run is the first method 
 
+5) Variables in Bash
+    a) create variables
+        os=Linux --> create variable 'os' with value 'Linux', not allow to have space before or after '='
+
+        distro="MX Linux" --> variable contains string, put it in double quotes 
+
+        age=30 --> variable contains number integer
+
+    b) some illegal variable names
+        4you=True --> this illegal variable name
+            (command not found)
+        a.b=100 --> illegal
+        Anne@ --> illegal 
+        Anne@Marry=d --> illegal
     
+    c) some legal variable names
+        you4=False --> legal variable name 
+        server_name="Apache 2.4" --> legal variable name 
+        A=34 --> legal 
+
+    d) viewing values of variables
+        echo $age --> access the value of variable 'age' using $, echo for printing
+
+        echo "I'm learning $os and I'm $age old." --> $os and $age will be replaced by the value 
+    or variable 'os' and 'age', we have to use double quotes to see the value
+
+        echo '$os something $age' --> when using single quote, the name of variable is not replaced 
+    by its value, here the result is '$os something $age'
+
+        echo "The value of \$os is $os" --> using backslash symbol to escape (cancel) the special
+    meaning of '$', result is 'The value of $os is Linux'
+
+    e) get values of variables and assign to other variables
+        distro="Ubuntu"
+        my_distro="$os $distro" --> take values of other variable to assign variable
+        echo $my_distro --> will show 'Linux Ubuntu'
+
+    f) search for variable in current shell
+        set --> to display all shell variables and functions
+
+        set | grep distro --> search for distro Variables
+            distro=Ubuntu
+            my_distro='Linux Ubuntu'
+
+    g) remove variable with 'unset'
+        echo $distro
+        unset distro
+        echo $distro
+
+    h) some environment variables
+        echo $PATH 
+        echo $USER
+        echo $HOME
+        echo $HISTSIZE
+
+    i) create constants
+        declare -r logdir="/var/log"
+        ls $logdir --> will list content of '/var/log'
+        logdir="abc" --> show 'readonly' error since we already set the variable is constant 
+
+        unset logdir --> cannot unset also since it will be readonly variable 
+
+    j) create file_stat.sh with content and assign permissions and run
+        #!/bin/bash
+        filename="/etc/passwd"
+        echo "Number of lines:"
+        wc -l $filename
+        echo "#################"
+        echo "First 5 lines:"
+        head -n 5 $filename
+
+        echo "#################"
+        echo "Last 7 lines:"
+        tail -n 7 $filename
+
+
+
+
+
