@@ -148,7 +148,73 @@ Note: the most common one to run is the first method
         echo "Last 7 lines:"
         tail -n 7 $filename
 
+6) Environment Variables 
+    a) environment variables
+        + define for the current shell, inherited by any child shells or processes
+        + used to pass info to processes that are spawned from the current shell 
+        + displayed using env or printenv
 
+        for example:
+            echo $PATH
+            echo $HOME
 
+            env --> list all environment variables
+            env | grep USER --> search 'user'
+            env | grep SHELL --> search 'shell'
 
+            printenv --> list environment variables, same as 'env'
+            printenv HOME --> show the value of environment variable "HOME"
+            printenv SHELL --> show the value of SHELL such as /bin/bash
 
+            printenv SHELL PWD LC_TIME --> pass multiple variables to printenv to print values 
+    b) shell variables 
+        + contained exclusively within the shell in which they were set or defined 
+        + display using set
+
+        abc=123
+        env | grep abc --> not found any because this variable is shell variable 
+        set | grep abc --> found it 
+        
+        set -o posix --> run set in posix mode and will not print the shell functions with 'set' command 
+        set --> now it will display only environment and shell variables 
+
+    c) configuration file 
+        + user configuration files: ~/.bashrc
+            vim ~/.bashrc 
+            export PATH=$PATH:~/scripts --> add to the end of the file
+
+            source ~/.bashrc --> load in the current shell
+            echo $PATH --> now we can see the home/vinhvong/scripts inside the $path, and we can run 
+        directly script files inside of $PATH location 
+
+        + system-wide configuration files: /etc/bash.bashrc and /etc/profile 
+            cat /etc/environment --> file contains PATH system wide
+
+7) Getting User Input
+    a) Read command to get input from user
+        read name --> and enter the value 'John'
+        echo $name --> show value 'John'
+            
+        read -p "Enter the IP address" ip --> read with option -p which provide prompting, 'ip'
+    will be the variable store the value, enter 100.0.0.1
+        echo $ip --> show value '100.0.0.1'
+
+        ping -c 1 $ip --> can ping the value of $ip 
+
+    b) Create block ip script
+        sudo iptables -I INPUT -s 8.8.8.8 -j DROP --> this command will use 'iptables' to block
+    all incoming traffic has source ip is 8.8.8.8 
+
+        vim block_ip.sh --> create script to understand read command
+            #!/bin/bash
+            read -p "Enter the IP address or domain to block: " ip
+            iptables -I INPUT -s $ip -j DROP
+            echo "The packets from $ip will be dropped."
+
+        chmod +x block_ip.sh --> provide execute mode for 'block_ip.sh' script 
+
+        sudo ./block_ip.sh --> run the script
+
+        Note:
+            read -s -p "Enter password: " pswd --> -s is silent mode, it does not show
+        character when enter the value, using with enter password is good choice

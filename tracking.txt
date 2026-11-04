@@ -167,7 +167,10 @@ intro to bash shell scripting -> done
 the bash shebang and comments -> done
 running scripts -> done 
 quiz for bash shell scripts -> done 
-variable in bash --> waiting
+variable in bash -> done
+environment variables -> done
+getting user input -> done
+special variables and positional arguments --> waiting
 
 
 
