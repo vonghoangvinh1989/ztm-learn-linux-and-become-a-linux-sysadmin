@@ -218,3 +218,26 @@ Note: the most common one to run is the first method
         Note:
             read -s -p "Enter password: " pswd --> -s is silent mode, it does not show
         character when enter the value, using with enter password is good choice
+
+8) Special Variables and Positional Arguments
+    ./script.sh filename1 dir1 10.0.0.1
+
+    $0 is the name of the script itself (script.sh)
+    $1 is the first positional argument (filename1)
+    $2 is the second positional argument (dir1)
+    $3 is the last argument of the script (10.0.0.1)
+    $9 would be the ninth argument and ${10} the tenth
+
+    $# is the number of the positional arguments 
+    "$*" is a string representation of all positional arguments: $1, $2, $3...
+    $? is the most recent foreground command exit status 
+
+    For example: 
+        ./arguments.sh linux windows mac 10
+            $0 is ./arguments.sh
+            $1 is linux
+            $2 is windows
+            $3 is mac
+            $* is linux windows mac 10
+            $# is 4
+

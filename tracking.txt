@@ -170,7 +170,9 @@ quiz for bash shell scripts -> done
 variable in bash -> done
 environment variables -> done
 getting user input -> done
-special variables and positional arguments --> waiting
+special variables and positional arguments -> done
+quiz for bash variables -> done
+if, elif and else statements --> waiting
 
 
 
