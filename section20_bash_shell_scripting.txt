@@ -241,3 +241,61 @@ Note: the most common one to run is the first method
             $* is linux windows mac 10
             $# is 4
 
+9) If, elif and else statements
+    a) Syntax of if statements
+
+        if [ some_condition_is_true ] --> need to have white space before and after bracket
+        then 
+            // execute this code 
+        elif [some_other_condition_is_true ]
+        then 
+            // execute this code 
+        else 
+            // execute this code 
+        fi --> delimiter entire if statements 
+
+    b) Practical example
+        vim display.sh --> create display.sh script to display regular file
+            
+            #!/bin/bash
+            if [[ -f "$1" ]] # testing condition -f means file exists and is a regular file
+            then
+                echo "The argument is a file, displaying its contents..."
+                sleep 1
+                cat $1
+            elif [[ -d "$1" ]] # testing condition -d means file exists and is a direcotry
+            then
+                echo "The argument is a directory, running ls -l..."
+                sleep 1
+                ls -l $1
+            else
+                echo "The argument ($1) is neither a file nor a directory."
+            fi
+
+        Note:
+            + double quotes bracket is new syntax and much safer
+            + vim: yl --> copy 1 character 
+                p: paste after cursor 
+                P: paste before cursor 
+                x: delete 1 character 
+                xp: swap two align characters
+            + man test --> view help about testing conditions
+
+10) Testing conditions for numbers 
+        vim age.sh 
+
+            #!/bin/bash
+            read -p "Enter your age: " age
+
+            if [[ "$age" -lt 18 ]] --> -lt: less than
+            then
+                echo "You are minor!"
+            elif [[ "$age" -eq 18 ]] --> -eq: equal
+            then
+                echo "Congratulations, you've just become major!"
+            else
+                echo "You are major."
+            fi
+
+                
+

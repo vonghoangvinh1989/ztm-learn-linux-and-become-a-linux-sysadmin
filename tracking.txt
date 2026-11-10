@@ -172,8 +172,9 @@ environment variables -> done
 getting user input -> done
 special variables and positional arguments -> done
 quiz for bash variables -> done
-if, elif and else statements --> waiting
-
+if, elif and else statements -> done
+testing conditions for numbers -> done
+multiple conditions and nested if statements --> waiting
 
 
 
